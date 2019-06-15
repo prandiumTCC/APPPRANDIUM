@@ -5,7 +5,18 @@ class Chat extends Component {
   
   static navigationOptions = {
     title: "Chat",
-  }
+    headerStyle: {
+      backgroundColor: '#444A5A',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      justifyContent:'center'
+    },
+    headerRight:(
+      <Text style={{color:'#FFF', marginRight:10}}>Sair</Text>
+    )
+  };
 
   render(){
     return(
@@ -16,6 +27,9 @@ class Chat extends Component {
   }
 }
 const styles = StyleSheet.create({
- 
+  fundo: {
+    flex: 1,
+    backgroundColor: "#444A5A"
+  },
 });
 export default Chat;

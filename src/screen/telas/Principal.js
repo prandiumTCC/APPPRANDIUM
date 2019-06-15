@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class Principal extends Component {
 
   static navigationOptions = {
-    title: "Cadastro Paciente",
+    title:'Principal',
     headerStyle: {
       backgroundColor: '#444A5A',
-    }
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      justifyContent:'center'
+    },
+    headerRight:(
+      <Text style={{color:'#FFF', marginRight:10}}>Sair</Text>
+    ),
+    tabBarIcon:(
+      <Icon name="home" size={15} color="#000"/>
+    )
   };
 
   constructor(props) {
@@ -53,12 +64,15 @@ class Principal extends Component {
           </View>
         </View>
         <FlatList style={styles.flastListGrafico}
-        horizontal={true}
+          horizontal={true}
           //guarda as informacoes
           data={this.state.flatGrafico}
           //redenriza os itens
           renderItem={({ item }) => this.flatGrafRender(item)}
         />
+        <View>
+          <Text style={styles.titleNu} >Seu nutricionista</Text>
+        </View>
       </View>
     )
   }
@@ -101,23 +115,32 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 5,
-    width: 90,
-    height:90,
+    width: 100,
+    height: 90,
     margin: 4
   },
   cxGraficoTXT: {
     justifyContent: 'center',
     alignItems: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 18
   },
   cxGraficoTxtSub: {
     justifyContent: 'center',
     alignItems: 'center',
-    color: '#CCC'
+    color: '#CCC',
+    fontSize: 10
   },
   flastListGrafico: {
-    padding: 10
+    padding: 10,
+    height:50,
+  },
+  titleNu:{
+    fontWeight: 'bold',
+    fontSize: 18,
+    color:'#FFF'
   }
 });
 export default Principal;

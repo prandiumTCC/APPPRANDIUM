@@ -8,15 +8,15 @@ FERRAMENTAS:
 -yarn -v v1.16.0
 
 libs:
-#yarn add react-navigation
+# yarn add react-navigation
 # or with npm
 # npm install --save react-navigation
 
-#yarn add react-native-gesture-handler
+# yarn add react-native-gesture-handler
 # or with npm
 # npm install --save react-native-gesture-handler
 
-#react-native link react-native-gesture-handler
+# react-native link react-native-gesture-handler
 
-#npm i --save firebase
+# npm i --save firebase
 projeto te conclusão de curso.

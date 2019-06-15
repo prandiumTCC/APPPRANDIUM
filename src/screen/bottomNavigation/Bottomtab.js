@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
-import Principal from './Principal';
-import DadosPessoais from './DadosPessoais';
-import PlanoAlimentar from './PlanoAlimentar';
-import Chat from './Chat';
-import Grafico from './Grafico';
+import LinkPagePrincipal from '../stackNavigation/LinkPagePrincipal';
+import DadosPessoais from '../stackNavigation/LinkPageDados';
+import PlanoAlimentar from '../stackNavigation/LinkPagePlano';
+import Chat from '../stackNavigation/LinkPageChat';
+import Grafico from '../stackNavigation/LinkPageGrafic';
 
 const Navegador = createBottomTabNavigator({
   Principal: {
-    screen: Principal
+    screen: LinkPagePrincipal,
   },
   DadosPessoais: {
     screen: DadosPessoais
@@ -23,6 +23,12 @@ const Navegador = createBottomTabNavigator({
   Grafico: {
     screen: Grafico
   },
-});
+}, {
+    initialRouteName: 'Principal',
+    tabBarOptions: {
+      showIcon: true,
+      showLabel:false
+    }
+  });
 const AppContainer = createAppContainer(Navegador);
 export default AppContainer;

@@ -17,6 +17,9 @@ export default class CadastroPaciente extends Component {
   constructor(props) {
     super(props);
     this.state={}
+
+    this.cadastarUser = this.cadastarUser.bind(this);
+
   }
   cadastarUser(){
     Keyboard.dismiss();
@@ -94,8 +97,6 @@ export default class CadastroPaciente extends Component {
     </View>;
   }
 }
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

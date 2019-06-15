@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
-import { View, Text, StyleSheet, TextInput, TouchableOpacity,Keyboard } from 'react-native';
-
-// import { Container } from './styles';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 
 export default class Login extends Component {
 
@@ -18,6 +16,7 @@ export default class Login extends Component {
     }
     this.logar = this.logar.bind(this);
     this.cadastro = this.cadastro.bind(this);
+    this.telaRec = this.telaRec.bind(this);
 
   }
 
@@ -30,7 +29,11 @@ export default class Login extends Component {
     Keyboard.dismiss();
     this.props.navigation.navigate("CadastroMedico");
   }
-
+  
+  telaRec() {
+    alert('apertou');
+    this.props.navigation.navigate("RecPSW");
+  }
 
   render() {
 
@@ -54,17 +57,16 @@ export default class Login extends Component {
           placeholder="Digite sua senha"
           underlineColorAndroid="transparent"
         />
-        <View style={styles.rdfPsw}>
-          <Text style={styles.titlePsw}>Redefinir senha</Text>
-        </View>
+          <TouchableOpacity style={styles.rdfPsw} onPress={this.telaRec} >
+            <Text style={styles.titlePsw} >Redefinir senha </Text>
+          </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.btnLogar} onPress={this.logar}>
-        <Text style={styles.txtBtn} >Logar</Text>
+        <Text style={styles.txtBtn} >{'Logar'.toLocaleUpperCase()}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.btnCad} onPress={this.cadastro}>
-        <Text>Cadastro</Text>
+        <Text>{'Cadastro'.toUpperCase()}</Text>
       </TouchableOpacity>
-
     </View>;
   }
 }
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
   rdfPsw: {
     marginTop: 10,
     marginBottom: 10,
-
+    backgroundColor: 'transparent' 
   },
   titlePsw: {
     color: "#FFF",
