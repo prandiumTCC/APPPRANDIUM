@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard } from 'react-native';
-
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard, Button } from 'react-native';
+import Modal from "react-native-modal";
+import { bold } from 'ansi-colors';
 export default class Login extends Component {
 
   static navigationOptions = {
-
     title: null,
     header: null,
   }
   constructor(props) {
     super(props);
     this.state = {
+      isModalVisible: false
       // modalVisible:false
-    }
+    };
     this.logar = this.logar.bind(this);
-    this.cadastro = this.cadastro.bind(this);
+    this.cadastroM = this.cadastroM.bind(this);
+    this.cadastroP = this.cadastroP.bind(this);
     this.telaRec = this.telaRec.bind(this);
 
   }
@@ -25,14 +27,23 @@ export default class Login extends Component {
     Keyboard.dismiss();
     this.props.navigation.navigate("Bottomtab");
   }
-  cadastro() {
+  cadastroP() {
     Keyboard.dismiss();
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+    this.props.navigation.navigate("CadastroPaciente");
+  }
+  cadastroM() {
+    Keyboard.dismiss();
+    this.setState({ isModalVisible: !this.state.isModalVisible });
     this.props.navigation.navigate("CadastroMedico");
   }
-  
+
   telaRec() {
     alert('apertou');
     this.props.navigation.navigate("RecPSW");
+  }
+  toggleModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
   }
 
   render() {
@@ -57,16 +68,32 @@ export default class Login extends Component {
           placeholder="Digite sua senha"
           underlineColorAndroid="transparent"
         />
-          <TouchableOpacity style={styles.rdfPsw} onPress={this.telaRec} >
-            <Text style={styles.titlePsw} >Redefinir senha </Text>
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.rdfPsw} onPress={this.telaRec} >
+          <Text style={styles.titlePsw} >Redefinir senha </Text>
+        </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.btnLogar} onPress={this.logar}>
         <Text style={styles.txtBtn} >{'Logar'.toLocaleUpperCase()}</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btnCad} onPress={this.cadastro}>
+      <TouchableOpacity style={styles.btnCad} onPress={this.toggleModal}>
         <Text>{'Cadastro'.toUpperCase()}</Text>
       </TouchableOpacity>
+      <Modal isVisible={this.state.isModalVisible}>
+        <View style={styles.modalFundo}>
+          <TouchableOpacity onPress={this.toggleModal} style={styles.btnModalClose} >
+            <Text style={styles.elementClose}>X</Text>
+          </TouchableOpacity>
+          <View style={styles.titleModal}>
+            <Text style={styles.txtModal}>{'tipo de cadastro'.toUpperCase()}</Text>
+          </View>
+          <TouchableOpacity style={styles.btnCadM} onPress={this.cadastroM}>
+            <Text style={styles.txtBtn}>{'Cadastro Nutricionista'.toUpperCase()}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnCadP} onPress={this.cadastroP}>
+            <Text style={styles.txtBtn}>{'Cadastro paciente'.toUpperCase()}</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>;
   }
 }
@@ -98,7 +125,7 @@ const styles = StyleSheet.create({
   rdfPsw: {
     marginTop: 10,
     marginBottom: 10,
-    backgroundColor: 'transparent' 
+    backgroundColor: 'transparent'
   },
   titlePsw: {
     color: "#FFF",
@@ -127,6 +154,46 @@ const styles = StyleSheet.create({
   },
   txtBtn: {
     color: "#FFF",
+  },
+  modalFundo: {
+    backgroundColor: '#FFF',
+    borderRadius: 3,
+    padding: 10
+  },
+  btnModalClose: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    backgroundColor: "transparent",
+  },
+  elementClose: {
+    color: 'red',
+    fontWeight: 'bold',
+    fontSize: 18
+  },
+  titleModal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:10
+  },
+  txtModal:{
+    fontWeight: 'bold',
+  },
+  btnCadM: {
+    backgroundColor: "#839DCA",
+    borderRadius: 3,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: "#FFF",
+  },
+  btnCadP: {
+    backgroundColor: "#9DCA83",
+    borderRadius: 3,
+    height: 44,
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: "#FFF"
   },
 
 });

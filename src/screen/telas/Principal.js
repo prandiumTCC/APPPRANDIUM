@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class Principal extends Component {
 
@@ -15,11 +15,8 @@ class Principal extends Component {
       justifyContent:'center'
     },
     headerRight:(
-      <Text style={{color:'#FFF', marginRight:10}}>Sair</Text>
-    ),
-    tabBarIcon:(
       <Icon name="home" size={15} color="#000"/>
-    )
+    ),
   };
 
   constructor(props) {
@@ -111,7 +108,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cxGrafico: {
-    flex: 1,
     backgroundColor: "#FFF",
     flexDirection: 'column',
     alignItems: 'center',
