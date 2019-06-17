@@ -85,15 +85,29 @@ class Principal extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <FlatList style={styles.flastListGrafico}
-          horizontal={true}
-          //guarda as informacoes
-          data={this.state.flatGrafico}
-          //redenriza os itens
-          renderItem={({ item }) => this.flatGrafRender(item)}
-        />
-        <View>
-          <Text style={styles.titleNu} >Seu nutricionista</Text>
+        <View style={styles.cxResumoDesempenho}>
+          <Text style={styles.titleResumoDesempenho}>Resumo desempenho</Text>
+          <FlatList
+            horizontal={true}
+            //guarda as informacoes
+            data={this.state.flatGrafico}
+            //redenriza os itens
+            renderItem={({ item }) => this.flatGrafRender(item)}
+          />
+        </View>
+        <View style={styles.cxNutricionista}>
+          <Text style={styles.titleNutricionista} >Seu Nutricionista</Text>
+          <View style={styles.boxNutri}>
+            <View style={styles.fotoNutri}>
+              <Image style={styles.img}
+                source={require('../../img/perfil.jpg')}
+              />
+            </View>
+            <View style={styles.dadosNutri}>
+              <Text style={styles.infoNutri}>Nome: Thompson S.</Text>
+              <Text style={styles.infoNutri}>CRN: DF-0000x</Text>
+            </View>
+          </View>
         </View>
 
         <Modal isVisible={this.state.isModalVisible}>
@@ -169,6 +183,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  cxResumoDesempenho:{
+    flex: 4,
+    padding: 10
+  },
+  titleResumoDesempenho: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginLeft: 3
+  },
   cxGrafico: {
     backgroundColor: "#FFF",
     flexDirection: 'column',
@@ -191,14 +215,40 @@ const styles = StyleSheet.create({
     color: '#CCC',
     fontSize: 10
   },
-  flastListGrafico: {
-    padding: 10,
-    height: 50,
-  },
-  titleNu: {
+  titleNu:{
     fontWeight: 'bold',
     fontSize: 18,
-    color: '#FFF'
+    color:'#FFF'
+  },
+  cxNutricionista: {
+    flex: 7,
+    padding: 10
+  },
+  titleNutricionista: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginBottom: 3
+  },
+  boxNutri: {
+    backgroundColor: '#FFF',
+    height: 100,
+    borderRadius: 5,
+    flexDirection: 'row',
+    padding: 10
+  },
+  fotoNutri:{
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    flex: 1
+  },
+  dadosNutri: {
+    justifyContent: 'center',
+    flex: 2
+  },
+  infoNutri:{
+    fontWeight: 'bold'
   },
   modalFundo: {
     backgroundColor: '#FFF',
@@ -254,7 +304,5 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 400 / 2,
   }
-
-
 });
 export default Principal;
