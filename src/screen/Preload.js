@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import firebase from '../connection/firebaseConnnection';
-
-
+import {StackActions, NavigationActions} from 'react-navigation';
 
 export default class Preload extends Component {
 
@@ -17,9 +16,19 @@ export default class Preload extends Component {
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.props.navigation.navigate('Home',);
+        const resetAction = StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({routeName: 'Home'})] 
+        });
+        this.props.navigation.dispatch(resetAction);
+        //this.props.navigation.navigate('Home',);
       } else {
-        this.props.navigation.navigate('Login');
+        const resetAction = StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({routeName: 'Login'})] 
+        });
+        this.props.navigation.dispatch(resetAction);
+        //this.props.navigation.navigate('Login');
       }
     })
   }
