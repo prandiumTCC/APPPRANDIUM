@@ -23,14 +23,14 @@ class Principal extends Component {
     super(props);
     this.state = {
       flatGrafico: [
-        { key: "1", nome: 'Bonieky', valor: 70 },
-        { key: "2", nome: 'asd', valor: 150 },
-        { key: "3", nome: 'Bonieky', valor: 70 },
-        { key: "4", nome: 'asd', valor: 150 },
-        { key: "5", nome: 'Bonieky', valor: 70 },
-        { key: "6", nome: 'asd', valor: 150 },
-        { key: "7", nome: 'Bonieky', valor: 70 },
-        { key: "8", nome: 'asd', valor: 150 },
+        { key: "1", nome: 'Bonieky', valor: '70%' },
+        { key: "2", nome: 'asd', valor: '150%' },
+        { key: "3", nome: 'Bonieky', valor: '70%' },
+        { key: "4", nome: 'asd', valor: '150%' },
+        { key: "5", nome: 'Bonieky', valor: '70%' },
+        { key: "6", nome: 'asd', valor: '150%' },
+        { key: "7", nome: 'Bonieky', valor: '70%' },
+        { key: "8", nome: 'asd', valor: '150%' },
       ]
     }
   }
@@ -60,15 +60,29 @@ class Principal extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <FlatList style={styles.flastListGrafico}
-          horizontal={true}
-          //guarda as informacoes
-          data={this.state.flatGrafico}
-          //redenriza os itens
-          renderItem={({ item }) => this.flatGrafRender(item)}
-        />
-        <View>
-          <Text style={styles.titleNu} >Seu nutricionista</Text>
+        <View style={styles.cxResumoDesempenho}>
+          <Text style={styles.titleResumoDesempenho}>Resumo desempenho</Text>
+          <FlatList
+            horizontal={true}
+            //guarda as informacoes
+            data={this.state.flatGrafico}
+            //redenriza os itens
+            renderItem={({ item }) => this.flatGrafRender(item)}
+          />
+        </View>
+        <View style={styles.cxNutricionista}>
+          <Text style={styles.titleNutricionista} >Seu Nutricionista</Text>
+          <View style={styles.boxNutri}>
+            <View style={styles.fotoNutri}>
+              <Image style={styles.img}
+                source={require('../../img/perfilNutri.jpg')}
+              />
+            </View>
+            <View style={styles.dadosNutri}>
+              <Text style={styles.infoNutri}>Nome: Thompson S.</Text>
+              <Text style={styles.infoNutri}>CRN: DF-0000x</Text>
+            </View>
+          </View>
         </View>
       </View>
     )
@@ -107,6 +121,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  cxResumoDesempenho:{
+    flex: 3,
+    padding: 10
+  },
+  titleResumoDesempenho: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginLeft: 3
+  },
   cxGrafico: {
     backgroundColor: "#FFF",
     flexDirection: 'column',
@@ -129,14 +153,40 @@ const styles = StyleSheet.create({
     color: '#CCC',
     fontSize: 10
   },
-  flastListGrafico: {
-    padding: 10,
-    height:50,
-  },
   titleNu:{
     fontWeight: 'bold',
     fontSize: 18,
     color:'#FFF'
+  },
+  cxNutricionista: {
+    flex: 7,
+    padding: 10
+  },
+  titleNutricionista: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginBottom: 3
+  },
+  boxNutri: {
+    backgroundColor: '#FFF',
+    height: 100,
+    borderRadius: 5,
+    flexDirection: 'row',
+    padding: 10
+  },
+  fotoNutri:{
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    flex: 1
+  },
+  dadosNutri: {
+    justifyContent: 'center',
+    flex: 2
+  },
+  infoNutri:{
+    fontWeight: 'bold'
   }
 });
 export default Principal;
