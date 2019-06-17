@@ -39,7 +39,7 @@ export default class Login extends Component {
   }
 
   telaRec() {
-    alert('apertou');
+    //alert('apertou');
     this.props.navigation.navigate("RecPSW");
   }
   toggleModal = () => {

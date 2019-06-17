@@ -3,16 +3,20 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 import  Preload from './src/screen/Preload';
 import  Login from './src/screen/Login';
+import RecPSW from './src/screen/RecPSW';
 import  Bottomtab  from './src/screen//bottomNavigation/Bottomtab';
 import  CadastroPaciente  from './src/screen/CadastroPaciente';
 import CadastroMedico from './src/screen/CadastroMedico';
 
-const navigation = createStackNavigator({
+const Appcontainer = createStackNavigator({
   Preload:{
     screen:Preload
   },
   Login:{
     screen:Login
+  },
+  RecPSW: {
+    screen: RecPSW
   },
   Bottomtab:{
     screen:Bottomtab
@@ -25,5 +29,4 @@ const navigation = createStackNavigator({
   }
 })
 
-const Appcontainer = createAppContainer(navigation);
-export default Appcontainer; 
+export default createAppContainer(Appcontainer);
