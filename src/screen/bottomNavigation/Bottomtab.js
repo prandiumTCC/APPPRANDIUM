@@ -27,8 +27,8 @@ const Navegador = createBottomTabNavigator({
     initialRouteName: 'Principal',
     tabBarOptions: {
       showIcon: false,
-      showLabel:true
-    }
+      showLabel: true
+    },
   });
 const AppContainer = createAppContainer(Navegador);
 export default AppContainer;

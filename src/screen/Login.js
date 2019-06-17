@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard, Button } from 'react-native';
 import Modal from "react-native-modal";
-import { bold } from 'ansi-colors';
 export default class Login extends Component {
 
   static navigationOptions = {

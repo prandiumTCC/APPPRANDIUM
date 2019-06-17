@@ -6,10 +6,8 @@ import Principal from '../telas/Principal';
 const NavegadorStack = createStackNavigator({
   Principal: {
     screen: Principal,
-   
   },
 },{
-  // headerMode:''
   headerLayoutPreset:'center'
 });
 const AppContainer = createAppContainer(NavegadorStack);
