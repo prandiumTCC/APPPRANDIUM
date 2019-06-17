@@ -1,5 +1,5 @@
 {
-  "name": "PRANDIUM",
+  "name": "prandium",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -25,5 +25,17 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "description": "APP PRANDIUM\r FERRAMENTAS:\r - vscode - Versão: Commit de 1.35.0 (system setup): 553cfb2c2205db5f15f3ee8395bbd5cf066d357d Data: 2019-06-04T01:17:12.481Z elétron: 3.1.8 Chrome: 66.0.3359.181 node. js: 10.2.0 V8: 6.6.346.32 OS: Windows_NT x64 10.0.17134\r - \r -react-native -v 0.60\r -nodejs -v v12.4.0\r -npm -v 6.9.0\r -yarn -v v1.16.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prandiumTCC/APPPRANDIUM.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prandiumTCC/APPPRANDIUM/issues"
+  },
+  "homepage": "https://github.com/prandiumTCC/APPPRANDIUM#readme"
 }

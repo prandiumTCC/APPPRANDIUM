@@ -36,7 +36,10 @@ class Principal extends Component {
       ],
       flatNutri:[
         {key:'1', nome: 'Dr.Fabricio'},
-        {key:'2', nome: 'Dr.Fabio'}
+        {key:'2', nome: 'Dr.Fabio'},
+        {key:'3', nome: 'Dr.Fabio'},
+        {key:'4', nome: 'Dr.Fabio'},
+        {key:'5', nome: 'Dr.Fabio'}
       ]
     };
     this.enviarNutri = this.enviarNutri.bind(this);
@@ -52,13 +55,13 @@ class Principal extends Component {
       </View>
     );
   }
-  flatNutri(itemN) {
+  flatNutri(item) {
     return (
-      <View style={styles.dadosPessoais}>
-        <Image style={styles.img}
+      <View style={styles.dadosPessoaisN}>
+        <Image style={styles.flatfoto}
           source={require('../../img/perfil.jpg')}
         />
-        <Text style={styles.cxGraficoTxtSub}>{itemN.nome}</Text>
+        <Text style={styles.cxGraficoTxtSub}>{item.nome}</Text>
       </View>
     );
   }
@@ -110,9 +113,10 @@ class Principal extends Component {
                 underlineColorAndroid="transparent"
               />
             </View>
-            <FlatList
+            <FlatList style={styles.listnutriSeach}
+            horizontal={false}
               data={this.state.flatNutri}
-              renderItem={({itemN})=> this.flatNutri(itemN)}
+              renderItem={({item})=> this.flatNutri(item)}
             />
 
             <TouchableOpacity style={styles.btnSend} onPress={this.enviarNutri}>
@@ -132,6 +136,13 @@ const styles = StyleSheet.create({
   },
   dadosPessoais: {
     height: 100,
+    backgroundColor: "#FFF",
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    padding: 5
+  },
+  dadosPessoaisN: {
+    height: 50,
     backgroundColor: "#FFF",
     justifyContent: 'space-around',
     flexDirection: 'row',
@@ -234,10 +245,16 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     paddingHorizontal: 20
   },
-
-  cxNutri:{
-
+  listnutriSeach: {
+    padding: 10,
+    height: 150,
+  },
+  flatfoto:{
+    width: 30,
+    height: 30,
+    borderRadius: 400 / 2,
   }
+
 
 });
 export default Principal;
