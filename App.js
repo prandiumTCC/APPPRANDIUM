@@ -7,6 +7,7 @@ import RecPSW from './src/screen/RecPSW';
 import  Bottomtab  from './src/screen/bottomNavigation/Bottomtab';
 import  CadastroPaciente  from './src/screen/CadastroPaciente';
 import CadastroMedico from './src/screen/CadastroMedico';
+import Conversa from './src/screen/telas/Conversa';
 
 const Appcontainer = createStackNavigator({
   Preload:{
@@ -30,6 +31,9 @@ const Appcontainer = createStackNavigator({
   },
   CadastroMedico:{
     screen:CadastroMedico
+  },
+  Conversa:{
+    screen: Conversa
   }
 })
 
