@@ -1,25 +1,38 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import React, { Component } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity
+} from "react-native";
+import firebase from "../../connection/firebaseConnnection";
 
 class PlanoAlimentar extends Component {
-  
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     title: "Plano Alimentar",
     headerStyle: {
-      backgroundColor: '#444A5A',
+      backgroundColor: "#444A5A"
     },
-    headerTintColor: '#fff',
+    headerTintColor: "#fff",
     headerTitleStyle: {
-      fontWeight: 'bold',
-      justifyContent:'center'
+      fontWeight: "bold",
+      justifyContent: "center"
     },
-    headerRight:(
-      <Text style={{color:'#FFF', marginRight:10}}>Sair</Text>
+    headerRight: (
+      <TouchableOpacity
+        onPress={() => {
+          firebase.auth().signOut();
+          navigation.navigate(`../Login`);
+        }}
+      >
+        <Text style={{ color: "#FFF", marginRight: 10 }}>Sair</Text>
+      </TouchableOpacity>
     )
-  };
+  });
 
-  render(){
-    return(
+  render() {
+    return (
       <ScrollView style={styles.container}>
         <Text style={styles.titleContainer}>SEU PLANO ALIMENTAR</Text>
         <View style={styles.boxPlanoAlimentar}>
@@ -70,57 +83,57 @@ class PlanoAlimentar extends Component {
           </View>
         </View>
       </ScrollView>
-    )
+    );
   }
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#444A5A',
+    backgroundColor: "#444A5A",
     padding: 10
   },
-  titleContainer:{
-    color: '#FFF',
+  titleContainer: {
+    color: "#FFF",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 10,
     marginBottom: 10
   },
-  boxPlanoAlimentar:{
-    backgroundColor: '#CCC',
+  boxPlanoAlimentar: {
+    backgroundColor: "#CCC",
     borderRadius: 5,
     padding: 20
   },
-  titleTurno:{
-    color: '#000',
+  titleTurno: {
+    color: "#000",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10
   },
-  boxAlimentos:{
-    backgroundColor: '#FFF',
+  boxAlimentos: {
+    backgroundColor: "#FFF",
     borderRadius: 5,
     padding: 10,
     marginBottom: 20
   },
   subTitleAlimentos: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   txtSubTitle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 15
   },
-  itemAlimentos:{
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  itemAlimentos: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     borderBottomWidth: 1,
-    borderColor: '#CCC',
+    borderColor: "#CCC",
     marginBottom: 5
   },
-  txtItemAlimento:{
-    color: '#000',
-    fontWeight: 'bold',
+  txtItemAlimento: {
+    color: "#000",
+    fontWeight: "bold",
     fontSize: 15
   }
 });

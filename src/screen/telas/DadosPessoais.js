@@ -1,22 +1,37 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import React, { Component } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  TextInput
+} from "react-native";
+import firebase from "../../connection/firebaseConnnection";
 
 class DadosPessoais extends Component {
-
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     title: "Dados Pessoais",
     headerStyle: {
-      backgroundColor: '#444A5A',
+      backgroundColor: "#444A5A"
     },
-    headerTintColor: '#fff',
+    headerTintColor: "#fff",
     headerTitleStyle: {
-      fontWeight: 'bold',
-      justifyContent: 'center'
+      fontWeight: "bold",
+      justifyContent: "center"
     },
-    headerRight:(
-      <Text style={{color:'#FFF', marginRight:10}}>Sair</Text>
+    headerRight: (
+      <TouchableOpacity
+        onPress={() => {
+          firebase.auth().signOut();
+          navigation.navigate(`../Login`);
+        }}
+      >
+        <Text style={{ color: "#FFF", marginRight: 10 }}>Sair</Text>
+      </TouchableOpacity>
     )
-  };
+  });
 
   render() {
     return (
@@ -24,8 +39,9 @@ class DadosPessoais extends Component {
         <ScrollView>
           <View style={styles.container}>
             <View style={styles.viewIMG}>
-              <Image style={styles.fotoPerfil}
-                source={require('../../img/perfil.jpg')}
+              <Image
+                style={styles.fotoPerfil}
+                source={require("../../img/perfil.jpg")}
               />
               <TouchableOpacity style={styles.btnAlterarFoto}>
                 <Text style={styles.txtBtn}>ALTERAR FOTO</Text>
@@ -77,7 +93,7 @@ class DadosPessoais extends Component {
           </View>
         </ScrollView>
       </View>
-    )
+    );
   }
 }
 const styles = StyleSheet.create({
@@ -87,14 +103,13 @@ const styles = StyleSheet.create({
     padding: 10
   },
   viewIMG: {
-    justifyContent: 'center',
+    justifyContent: "center",
     alignItems: "center"
   },
   fotoPerfil: {
     width: 120,
     height: 120,
-    borderRadius: 400 / 2,
-
+    borderRadius: 400 / 2
   },
   btnAlterarFoto: {
     backgroundColor: "#839DCA",
@@ -102,44 +117,43 @@ const styles = StyleSheet.create({
     height: 44,
     width: 150,
     marginTop: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center"
   },
   btnAlterarDados: {
     backgroundColor: "#9DCA83",
     borderRadius: 3,
     height: 44,
     marginTop: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center"
   },
   txtBtn: {
-    color: '#FFF',
-    fontWeight: 'bold'
+    color: "#FFF",
+    fontWeight: "bold"
   },
   container: {
     flex: 1,
-    padding: 10 * 2,
-
+    padding: 10 * 2
   },
   ViewScroll: {
-    justifyContent: 'center',
-    alignItems: 'stretch'
+    justifyContent: "center",
+    alignItems: "stretch"
   },
   titleForm: {
     color: "#FFF",
     marginTop: 8,
     marginBottom: 4,
-    fontWeight: 'bold'
+    fontWeight: "bold"
   },
   form: {
-    marginTop: 5 * 2,
+    marginTop: 5 * 2
   },
   input: {
     backgroundColor: "#FFF",
     borderRadius: 10,
     height: 44,
     paddingHorizontal: 20
-  },
+  }
 });
 export default DadosPessoais;

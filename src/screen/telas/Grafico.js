@@ -1,10 +1,17 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity
+} from "react-native";
 import { LineChart, ProgressChart, PieChart } from "react-native-chart-kit";
+import firebase from "../../connection/firebaseConnnection";
 import { Dimensions } from "react-native";
 
 class Grafico extends Component {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     title: "Gráfico",
     headerStyle: {
       backgroundColor: "#444A5A"
@@ -14,8 +21,17 @@ class Grafico extends Component {
       fontWeight: "bold",
       justifyContent: "center"
     },
-    headerRight: <Text style={{ color: "#FFF", marginRight: 10 }}>Sair</Text>
-  };
+    headerRight: (
+      <TouchableOpacity
+        onPress={() => {
+          firebase.auth().signOut();
+          navigation.navigate(`../Login`);
+        }}
+      >
+        <Text style={{ color: "#FFF", marginRight: 10 }}>Sair</Text>
+      </TouchableOpacity>
+    )
+  });
 
   render() {
     const chartConfig = {

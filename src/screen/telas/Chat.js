@@ -1,37 +1,49 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
-import Conversa from './Conversa';
+import React, { Component } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableHighlight,
+  TouchableOpacity
+} from "react-native";
+import firebase from "../../connection/firebaseConnnection";
+import Conversa from "./Conversa";
 
 class Chat extends Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = {
-
-    };
+    this.state = {};
   }
-  
-  static navigationOptions = {
+
+  static navigationOptions = ({ navigation }) => ({
     title: "Chat",
     headerStyle: {
-      backgroundColor: '#444A5A',
+      backgroundColor: "#444A5A"
     },
-    headerTintColor: '#fff',
+    headerTintColor: "#fff",
     headerTitleStyle: {
-      fontWeight: 'bold',
-      justifyContent:'center'
+      fontWeight: "bold",
+      justifyContent: "center"
     },
-    headerRight:(
-      <Text style={{color:'#FFF', marginRight:10}}>Sair</Text>
+    headerRight: (
+      <TouchableOpacity
+        onPress={() => {
+          firebase.auth().signOut();
+          navigation.navigate(`../Login`);
+        }}
+      >
+        <Text style={{ color: "#FFF", marginRight: 10 }}>Sair</Text>
+      </TouchableOpacity>
     )
-  };
+  });
 
-  render(){
-    return(
+  render() {
+    return (
       <View style={styles.container}>
         <View style={styles.buttons}>
           <TouchableHighlight
-            onPress={()=>null}
+            onPress={() => null}
             activeOpacity={0.4}
             underlayColor="transparent"
             style={styles.buttonOn}
@@ -39,7 +51,7 @@ class Chat extends Component {
             <Text style={styles.txtButton}>CONTATOS</Text>
           </TouchableHighlight>
           <TouchableHighlight
-            onPress={()=>this.props.navigation.navigate('Conversa')}
+            onPress={() => this.props.navigation.navigate("Conversa")}
             activeOpacity={0.4}
             underlayColor="transparent"
           >
@@ -49,8 +61,9 @@ class Chat extends Component {
         <View style={styles.cxNutricionista}>
           <View style={styles.boxNutri}>
             <View style={styles.fotoNutri}>
-              <Image style={styles.img}
-                source={require('../../img/perfil.jpg')}
+              <Image
+                style={styles.img}
+                source={require("../../img/perfil.jpg")}
               />
             </View>
             <View style={styles.dadosNutri}>
@@ -60,7 +73,7 @@ class Chat extends Component {
           </View>
         </View>
       </View>
-    )
+    );
   }
 }
 const styles = StyleSheet.create({
@@ -68,20 +81,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#444A5A"
   },
-  buttons:{
+  buttons: {
     height: 50,
-    backgroundColor: '#839DCA',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    backgroundColor: "#839DCA",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     marginBottom: 10
   },
-  buttonOn:{
+  buttonOn: {
     borderBottomWidth: 0.5,
-    borderColor: '#FFF'
-  },  
+    borderColor: "#FFF"
+  },
   txtButton: {
-    color: '#FFF',
+    color: "#FFF",
     fontSize: 15
   },
   cxNutricionista: {
@@ -89,29 +102,29 @@ const styles = StyleSheet.create({
     padding: 10
   },
   boxNutri: {
-    backgroundColor: '#FFF',
+    backgroundColor: "#FFF",
     height: 100,
     borderRadius: 5,
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 10
   },
-  fotoNutri:{
+  fotoNutri: {
     width: 80,
     height: 80,
     borderRadius: 40,
     flex: 1
   },
   dadosNutri: {
-    justifyContent: 'center',
+    justifyContent: "center",
     flex: 2
   },
-  infoNutri:{
-    fontWeight: 'bold'
+  infoNutri: {
+    fontWeight: "bold"
   },
   img: {
     width: 80,
     height: 80,
-    borderRadius: 400 / 2,
+    borderRadius: 400 / 2
   }
 });
 export default Chat;

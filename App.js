@@ -1,40 +1,39 @@
-import React, { Component } from 'react';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createAppContainer } from "react-navigation";
+import Preload from "./src/screen/Preload";
+import Login from "./src/screen/Login";
+import RecPSW from "./src/screen/RecPSW";
+import Bottomtab from "./src/screen/bottomNavigation/Bottomtab";
+import CadastroPaciente from "./src/screen/CadastroPaciente";
+import CadastroMedico from "./src/screen/CadastroMedico";
+import Conversa from "./src/screen/telas/Conversa";
 
-import  Preload from './src/screen/Preload';
-import  Login from './src/screen/Login';
-import RecPSW from './src/screen/RecPSW';
-import  Bottomtab  from './src/screen/bottomNavigation/Bottomtab';
-import  CadastroPaciente  from './src/screen/CadastroPaciente';
-import CadastroMedico from './src/screen/CadastroMedico';
-import Conversa from './src/screen/telas/Conversa';
-
-const Appcontainer = createStackNavigator({
-  Preload:{
-    screen:Preload
+const navegation = createStackNavigator({
+  Preload: {
+    screen: Preload
   },
-  Login:{
-    screen:Login
+  Login: {
+    screen: Login
   },
   RecPSW: {
     screen: RecPSW
   },
-  Bottomtab:{
-    screen:Bottomtab,
+  Bottomtab: {
+    screen: Bottomtab,
     navigationOptions: {
       title: null,
       header: null
     }
   },
-  CadastroPaciente:{
-    screen:CadastroPaciente
+  CadastroPaciente: {
+    screen: CadastroPaciente
   },
-  CadastroMedico:{
-    screen:CadastroMedico
+  CadastroMedico: {
+    screen: CadastroMedico
   },
-  Conversa:{
+  Conversa: {
     screen: Conversa
   }
-})
+});
 
-export default createAppContainer(Appcontainer);
+const AppContainer = createAppContainer(navegation);
+export default AppContainer;
