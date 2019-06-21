@@ -9,6 +9,11 @@ import {
   TextInput
 } from "react-native";
 import firebase from "../../connection/firebaseConnnection";
+import ImagePicker from "react-native-image-picker";
+import RNFetchBlob from "react-native-fetch-blob";
+
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+window.Blob = RNFetchBlob.polyfill.Blob;
 
 class DadosPessoais extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -32,6 +37,66 @@ class DadosPessoais extends Component {
       </TouchableOpacity>
     )
   });
+  constructor(props) {
+    super(props);
+    this.state = {
+      foto: null,
+      uid: ""
+    };
+    console.disableYellowBox = true;
+    this.getPhoto = this.getPhoto.bind(this);
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        let state = this.state;
+        state.uid = user.uid;
+        this.setState(state);
+        alert(this.state.uid);
+      } else {
+        firebase.auth().signOut();
+      }
+    });
+  }
+  getPhoto = () => {
+    let option = {
+      title: "Selecione uma das opções para foto"
+    };
+    ImagePicker.showImagePicker(option, r => {
+      if (r.uri) {
+        let uri = r.uri.replace("file://", "");
+        let imagem = firebase
+          .storage()
+          .ref()
+          .child("IMG_PACIENTE")
+          .child(this.state.uid);
+        let mime = "image/jpeg";
+
+        RNFetchBlob.fs
+          .readFile(uri, "base64")
+          .then(data => {
+            return RNFetchBlob.polyfill.Blob.build(data, {
+              type: mime + ";BASE64"
+            });
+          })
+          .then(blob => {
+            imagem
+              .put(blob, { contentType: mime })
+              .then(() => {
+                blob.close();
+                alert("Terminou processo");
+                // let url = imagem.getDownloadURL();
+              })
+              .catch(error => {
+                alert("Fudeu: " + error.code + " / " + error.message);
+              });
+          });
+        let foto = { uri: r.uri };
+        let state = this.state;
+        state.foto = foto;
+        this.setState(state);
+      }
+    });
+  };
 
   render() {
     return (
@@ -39,11 +104,11 @@ class DadosPessoais extends Component {
         <ScrollView>
           <View style={styles.container}>
             <View style={styles.viewIMG}>
-              <Image
-                style={styles.fotoPerfil}
-                source={require("../../img/perfil.jpg")}
-              />
-              <TouchableOpacity style={styles.btnAlterarFoto}>
+              <Image style={styles.fotoPerfil} source={this.state.foto} />
+              <TouchableOpacity
+                style={styles.btnAlterarFoto}
+                onPress={this.getPhoto}
+              >
                 <Text style={styles.txtBtn}>ALTERAR FOTO</Text>
               </TouchableOpacity>
             </View>

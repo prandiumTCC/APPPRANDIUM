@@ -3,6 +3,8 @@ package com.prandium;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import com.imagepicker.ImagePickerPackage;
 import com.RNTextInputMask.RNTextInputMaskPackage;
 import com.horcrux.svg.SvgPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -25,7 +27,9 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNTextInputMaskPackage(), new SvgPackage(),
+      return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new RNFetchBlobPackage(),
+            new ImagePickerPackage(), new RNTextInputMaskPackage(), new SvgPackage(),
           new RNGestureHandlerPackage());
     }
 
