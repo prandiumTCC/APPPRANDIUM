@@ -39,18 +39,15 @@ export default class Login extends Component {
         let state = this.state;
         state.uid = user.uid;
         this.setState(state);
-
-        // alert("fez login sucesso");
         firebase
           .database()
           .ref("PACIENTE")
           .child(user.uid)
           .once("value")
           .then(snapshot => {
-            let nome = snapshot.val().nome_paciente;
-            let sobrenome = snapshot.val().sobrenome_paciente;
-            alert("seja bem vindo(a), " + nome + " " + sobrenome);
-            this.props.navigation.navigate("Bottomtab");
+            this.props.navigation.navigate("./telas/Principal", {
+              nome: "italo"
+            });
           });
         this.closeKeyBord();
       }
@@ -74,8 +71,12 @@ export default class Login extends Component {
           case `auth/network-request-failed`:
             alert("Email invalido");
             break;
+          case `auth/user-not-found`:
+            alert("Usuário nao corresponde ao cadastrado na base");
+            break;
           default:
-            alert("tente novamente mais tarde");
+            // alert("tente novamente mais tarde");
+            alert("Error: " + error.code + " / " + error.message);
             break;
         }
       });

@@ -12,7 +12,7 @@ export default class Preload extends Component {
     super(props);
     this.state = {};
 
-    //firebase.auth().signOut();
+    // firebase.auth().signOut();
   }
   componentDidMount = () => {
     setTimeout(() => {

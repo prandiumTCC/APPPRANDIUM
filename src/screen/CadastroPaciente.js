@@ -28,11 +28,11 @@ export default class CadastroPaciente extends Component {
       nome_paciente: "",
       sobrenome_paciente: "",
       cpf_paciente: "",
-      dataNasc_paciente: "",
       celular_paciente: "",
       email_paciente: "",
       senha_paciente: "",
-      perfil_paciente: 2
+      perfil_paciente: 2,
+      sts_paciente: 0
     };
 
     this.validarCampos = this.validarCampos.bind(this);
@@ -50,10 +50,10 @@ export default class CadastroPaciente extends Component {
             nome_paciente: state.nome_paciente,
             sobrenome_paciente: state.sobrenome_paciente,
             cpf_paciente: state.cpf_paciente,
-            dataNasc_paciente: state.dataNasc_paciente,
             celular_paciente: state.celular_paciente,
             email_paciente: state.email_paciente,
-            perfil_paciente: state.perfil_paciente
+            perfil_paciente: state.perfil_paciente,
+            sts_paciente: state.sts_paciente
           });
         alert("Paciente cadastrado com sucesso");
         this.props.navigation.navigate("./bottomNavigation/Bottomtab");
@@ -66,39 +66,34 @@ export default class CadastroPaciente extends Component {
     if (state.nome_paciente != isNaN && state.nome_paciente != "") {
       if (state.sobrenome_paciente != isNaN && state.sobrenome_paciente != "") {
         if (state.cpf_paciente.length == 14 && state.cpf_paciente != "") {
-          if (
-            state.dataNasc_paciente.length == 10 &&
-            state.dataNasc_paciente != ""
-          ) {
-            if (
-              state.celular_paciente != isNaN &&
-              state.celular_paciente != ""
-            ) {
-              if (state.email_paciente != isNaN && state.email_paciente != "") {
-                if (
-                  state.senha_paciente != isNaN &&
-                  state.senha_paciente != ""
-                ) {
-                  firebase
-                    .auth()
-                    .createUserWithEmailAndPassword(
-                      this.state.email_paciente,
-                      this.state.senha_paciente
-                    )
-                    .catch(error => {
-                      alert(error.code + "/" + error.message);
-                    });
-                } else {
-                  alert("Preencha campo Senha");
-                }
+          if (state.celular_paciente != isNaN && state.celular_paciente != "") {
+            if (state.email_paciente != isNaN && state.email_paciente != "") {
+              if (state.senha_paciente != isNaN && state.senha_paciente != "") {
+                firebase
+                  .auth()
+                  .createUserWithEmailAndPassword(
+                    this.state.email_paciente,
+                    this.state.senha_paciente
+                  )
+                  .catch(error => {
+                    switch (error.code) {
+                      case `auth/weak-password`:
+                        alert("Senha deve conter mais de 6 caracteres");
+                        break;
+
+                      default:
+                        alert(error.code + "/" + error.message);
+                        break;
+                    }
+                  });
               } else {
-                alert("Preencha campo E-mail");
+                alert("Preencha campo Senha");
               }
             } else {
-              alert("Preencha campo celular");
+              alert("Preencha campo E-mail");
             }
           } else {
-            alert("Preencha campo Data de nascimento");
+            alert("Preencha campo celular");
           }
         } else {
           alert("Preencha campo CPF");
@@ -156,24 +151,6 @@ export default class CadastroPaciente extends Component {
                   this.setState({ cpf_paciente });
                 }}
                 mask={"[000].[000].[000]-[00]"}
-              />
-            </View>
-            <Text style={styles.titleForm}>Data Nascimento</Text>
-            <View style={styles.form}>
-              <TextInputMask
-                style={styles.input}
-                keyboardType={"numeric"}
-                autoCorrect={false}
-                value={this.state.dataNasc_paciente}
-                placeholder="Digite sua data de nascimento"
-                underlineColorAndroid="transparent"
-                refInput={ref => {
-                  this.input = ref;
-                }}
-                onChangeText={dataNasc_paciente => {
-                  this.setState({ dataNasc_paciente });
-                }}
-                mask={"[00]/[00]/[0000]"}
               />
             </View>
             <Text style={styles.titleForm}>Celular</Text>

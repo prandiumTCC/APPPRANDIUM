@@ -11,7 +11,7 @@ import {
 import firebase from "../../connection/firebaseConnnection";
 import Modal from "react-native-modal";
 
-class Principal extends Component {
+export default class Principal extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: "Principal",
     headerStyle: {
@@ -37,6 +37,8 @@ class Principal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // nomePaciente: this.props.navigation.state.params.nome,
+      // sobrenomePaciente: this.props.navigation.state.params.sobrenome,
       isModalVisible: false,
       flatGrafico: [
         { key: "1", nome: "Bonieky", valor: 70 },
@@ -86,6 +88,7 @@ class Principal extends Component {
   };
 
   render() {
+    const nome = this.props.navigation.getParam("nome", "nd");
     return (
       <View style={styles.fundo}>
         <View style={styles.dadosPessoais}>
@@ -96,7 +99,7 @@ class Principal extends Component {
             />
           </View>
           <View style={styles.cxDados}>
-            <Text>Nome</Text>
+            <Text>Nome:{JSON.stringify(nome)}</Text>
             <TouchableOpacity
               style={styles.btnPesquisar}
               onPress={this.toggleModal}
@@ -333,4 +336,3 @@ const styles = StyleSheet.create({
     borderRadius: 400 / 2
   }
 });
-export default Principal;
