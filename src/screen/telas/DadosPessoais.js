@@ -11,6 +11,7 @@ import {
 import firebase from "../../connection/firebaseConnnection";
 import ImagePicker from "react-native-image-picker";
 import RNFetchBlob from "react-native-fetch-blob";
+import Modal from "react-native-modal";
 
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = RNFetchBlob.polyfill.Blob;
@@ -41,7 +42,9 @@ class DadosPessoais extends Component {
     super(props);
     this.state = {
       foto: null,
-      uid: ""
+      uid: "",
+      pct: 0,
+      isModalVisible: false
     };
     console.disableYellowBox = true;
     this.getPhoto = this.getPhoto.bind(this);
@@ -51,7 +54,7 @@ class DadosPessoais extends Component {
         let state = this.state;
         state.uid = user.uid;
         this.setState(state);
-        alert(this.state.uid);
+        // alert(this.state.uid);
       } else {
         firebase.auth().signOut();
       }
@@ -79,16 +82,24 @@ class DadosPessoais extends Component {
             });
           })
           .then(blob => {
-            imagem
-              .put(blob, { contentType: mime })
-              .then(() => {
-                blob.close();
-                alert("Terminou processo");
-                // let url = imagem.getDownloadURL();
-              })
-              .catch(error => {
+            this.toggleModal();
+            imagem.put(blob, { contentType: mime }).on(
+              "state_changed",
+              snapshot => {
+                let pct = Math.floor(
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+                let state = this.state;
+                state.pct = pct;
+                this.setState(state);
+              },
+              error => {
                 alert("Fudeu: " + error.code + " / " + error.message);
-              });
+              },
+              () => {
+                let url = imagem.getDownloadURL();
+              }
+            );
           });
         let foto = { uri: r.uri };
         let state = this.state;
@@ -96,6 +107,9 @@ class DadosPessoais extends Component {
         this.setState(state);
       }
     });
+  };
+  toggleModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
   };
 
   render() {
@@ -111,6 +125,29 @@ class DadosPessoais extends Component {
               >
                 <Text style={styles.txtBtn}>ALTERAR FOTO</Text>
               </TouchableOpacity>
+              <Modal isVisible={this.state.isModalVisible}>
+                <View style={styles.modalFundo}>
+                  <TouchableOpacity
+                    onPress={this.toggleModal}
+                    style={styles.btnModalClose}
+                  >
+                    <Text style={styles.elementClose}>X</Text>
+                  </TouchableOpacity>
+                  <View style={styles.titleModal}>
+                    <Text style={styles.txtModal}>
+                      {"carregando imagem".toUpperCase()}
+                    </Text>
+                    <Text style={styles.pctTxt}>{this.state.pct}%</Text>
+                  </View>
+                  <View
+                    style={{
+                      width: this.state.pct + "%",
+                      height: 20,
+                      backgroundColor: "#9A83CA"
+                    }}
+                  />
+                </View>
+              </Modal>
             </View>
             <View style={styles.ViewScroll}>
               <Text style={styles.titleForm}>Nome</Text>
@@ -219,6 +256,33 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 44,
     paddingHorizontal: 20
+  },
+  modalFundo: {
+    backgroundColor: "#FFF",
+    borderRadius: 3,
+    padding: 10
+  },
+  btnModalClose: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    backgroundColor: "transparent"
+  },
+  elementClose: {
+    color: "red",
+    fontWeight: "bold",
+    fontSize: 18
+  },
+  titleModal: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10
+  },
+  txtModal: {
+    fontWeight: "bold"
+  },
+  pctTxt: {
+    fontSize: 20,
+    fontWeight: "bold"
   }
 });
 export default DadosPessoais;

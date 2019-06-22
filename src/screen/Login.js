@@ -6,8 +6,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Keyboard,
-  Button
+  Keyboard
 } from "react-native";
 import Modal from "react-native-modal";
 export default class Login extends Component {
