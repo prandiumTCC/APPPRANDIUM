@@ -59,6 +59,17 @@ class DadosPessoais extends Component {
         firebase.auth().signOut();
       }
     });
+    firebase
+      .storage()
+      .ref()
+      .child("IMG_PACIENTE")
+      .child(this.state.uid)
+      .getDownloadURL()
+      .then(url => {
+        let state = this.state;
+        state.foto = { uri: url };
+        this.setState(state);
+      });
   }
   getPhoto = () => {
     let option = {
@@ -83,6 +94,7 @@ class DadosPessoais extends Component {
           })
           .then(blob => {
             this.toggleModal();
+            // Salvando img no firebase
             imagem.put(blob, { contentType: mime }).on(
               "state_changed",
               snapshot => {
@@ -97,7 +109,12 @@ class DadosPessoais extends Component {
                 alert("Fudeu: " + error.code + " / " + error.message);
               },
               () => {
-                let url = imagem.getDownloadURL();
+                // pegando img do firebase
+                imagem.getDownloadURL().then(url => {
+                  let state = this.state;
+                  state.foto = { uri: url };
+                  this.setState(state);
+                });
               }
             );
           });
@@ -118,7 +135,14 @@ class DadosPessoais extends Component {
         <ScrollView>
           <View style={styles.container}>
             <View style={styles.viewIMG}>
-              <Image style={styles.fotoPerfil} source={this.state.foto} />
+              <Image
+                style={styles.fotoPerfil}
+                source={
+                  this.state.foto == null
+                    ? require("../../img/perfil.jpg")
+                    : this.state.foto
+                }
+              />
               <TouchableOpacity
                 style={styles.btnAlterarFoto}
                 onPress={this.getPhoto}
