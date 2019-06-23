@@ -37,8 +37,9 @@ export default class Principal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // nomePaciente: this.props.navigation.state.params.nome,
-      // sobrenomePaciente: this.props.navigation.state.params.sobrenome,
+       nomePaciente: '',
+       sobrenomePaciente: '',
+       uid:'',
       isModalVisible: false,
       flatGrafico: [
         { key: "1", nome: "Bonieky", valor: 70 },
@@ -58,8 +59,32 @@ export default class Principal extends Component {
         { key: "5", nome: "Dr.Fabio" }
       ]
     };
+    console.disableYellowBox = true;
     this.enviarNutri = this.enviarNutri.bind(this);
+    
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        let state = this.state;
+        state.uid = user.uid;
+        this.setState(state);
+        // alert(this.state.uid);
+        firebase
+          .database()
+          .ref("PACIENTE")
+          .child(this.state.uid)
+          .once("value", snapshot => {
+            let state = this.state;
+            state.nomePaciente = snapshot.val().nome_paciente;
+            state.sobrenomePaciente = snapshot.val().sobrenome_paciente;
+            this.setState(state);
+          });
+      } else {
+        firebase.auth().signOut();
+      }
+    });
+
   }
+  
   enviarNutri = () => {
     alert("enviando dados");
   };
@@ -88,7 +113,7 @@ export default class Principal extends Component {
   };
 
   render() {
-    const nome = this.props.navigation.getParam("nome", "nd");
+    
     return (
       <View style={styles.fundo}>
         <View style={styles.dadosPessoais}>
@@ -99,7 +124,7 @@ export default class Principal extends Component {
             />
           </View>
           <View style={styles.cxDados}>
-            <Text>Nome:{JSON.stringify(nome)}</Text>
+            <Text>Nome: {this.state.nomePaciente} {this.state.sobrenomePaciente}</Text>
             <TouchableOpacity
               style={styles.btnPesquisar}
               onPress={this.toggleModal}

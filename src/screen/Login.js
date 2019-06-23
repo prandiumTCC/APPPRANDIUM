@@ -44,9 +44,7 @@ export default class Login extends Component {
           .child(user.uid)
           .once("value")
           .then(snapshot => {
-            this.props.navigation.navigate("./telas/Principal", {
-              nome: "italo"
-            });
+            this.props.navigation.navigate("./telas/Principal");
           });
         this.closeKeyBord();
       }

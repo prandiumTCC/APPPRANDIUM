@@ -12,6 +12,7 @@ import firebase from "../../connection/firebaseConnnection";
 import ImagePicker from "react-native-image-picker";
 import RNFetchBlob from "react-native-fetch-blob";
 import Modal from "react-native-modal";
+import TextInputMask from "react-native-text-input-mask";
 
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = RNFetchBlob.polyfill.Blob;
@@ -44,7 +45,11 @@ class DadosPessoais extends Component {
       foto: null,
       uid: "",
       pct: 0,
-      isModalVisible: false
+      isModalVisible: false,
+      nome_paciente: "",
+      sobrenome_paciente: "",
+      cpf_paciente: "",
+      celular_paciente: ""
     };
     console.disableYellowBox = true;
     this.getPhoto = this.getPhoto.bind(this);
@@ -55,21 +60,36 @@ class DadosPessoais extends Component {
         state.uid = user.uid;
         this.setState(state);
         // alert(this.state.uid);
+        firebase
+          .database()
+          .ref("PACIENTE")
+          .child(this.state.uid)
+          .once("value", snapshot => {
+            let state = this.state;
+            state.nome_paciente = snapshot.val().nome_paciente;
+            state.sobrenome_paciente = snapshot.val().sobrenome_paciente;
+            state.cpf_paciente = snapshot.val().cpf_paciente;
+            state.celular_paciente = snapshot.val().celular_paciente;
+            this.setState(state);
+          });
       } else {
         firebase.auth().signOut();
       }
     });
-    firebase
-      .storage()
-      .ref()
-      .child("IMG_PACIENTE")
-      .child(this.state.uid)
-      .getDownloadURL()
-      .then(url => {
-        let state = this.state;
-        state.foto = { uri: url };
-        this.setState(state);
-      });
+
+    // firebase
+    //   .storage()
+    //   .ref()
+    //   .child("IMG_PACIENTE")
+    //   .child(this.state.uid)
+    //   .getDownloadURL()
+    //   .then(url => {
+    //     // alert(url);
+    //     // let uri = url.uri.replace("file://", "");
+    //     // let state = this.state;
+    //     // state.foto = { uri: uri };
+    //     // this.setState(state);
+    //   });
   }
   getPhoto = () => {
     let option = {
@@ -181,6 +201,8 @@ class DadosPessoais extends Component {
                   autoCorrect={false}
                   placeholder="Digite seu nome"
                   underlineColorAndroid="transparent"
+                  value={this.state.nome_paciente}
+                  onChangeText={nome_paciente => this.setState({nome_paciente})}
                 />
               </View>
               <Text style={styles.titleForm}>Sobrenome</Text>
@@ -190,26 +212,45 @@ class DadosPessoais extends Component {
                   autoCorrect={false}
                   placeholder="Digite seu sobrenome"
                   underlineColorAndroid="transparent"
+                  value={this.state.sobrenome_paciente}
+                  onChangeText={sobrenome_paciente => this.setState({sobrenome_paciente})}
                 />
               </View>
               <Text style={styles.titleForm}>CPF</Text>
               <View style={styles.form}>
-                <TextInput
-                  style={styles.input}
+              <TextInputMask
+                style={styles.input}
                   autoCorrect={false}
                   keyboardType={"numeric"}
                   placeholder="Digite seu CPF"
                   underlineColorAndroid="transparent"
-                />
+                  value={this.state.cpf_paciente}
+                underlineColorAndroid="transparent"
+                refInput={ref => {
+                  this.input = ref;
+                }}
+                onChangeText={cpf_paciente => this.setState({cpf_paciente})}
+                mask={"[000].[000].[000]-[00]"}
+              />
               </View>
+
+
               <Text style={styles.titleForm}>CELULAR</Text>
               <View style={styles.form}>
-                <TextInput
+              <TextInputMask
                   style={styles.input}
                   autoCorrect={false}
                   keyboardType={"numeric"}
                   placeholder="Digite seu celular"
                   underlineColorAndroid="transparent"
+                  value={this.state.celular_paciente}
+                refInput={ref => {
+                  this.input = ref;
+                }}
+                onChangeText={celular_paciente => {
+                  this.setState({ celular_paciente });
+                }}
+                mask={"([00]) [0] [0000]-[0000]"}
                 />
               </View>
               <TouchableOpacity style={styles.btnAlterarDados}>
