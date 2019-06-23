@@ -154,6 +154,36 @@ class DadosPessoais extends Component {
   toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };
+  alterarDadosPaciente = () => {
+    let state = this.state;
+    if (state.nome_paciente != isNaN && state.nome_paciente != "") {
+      if (state.sobrenome_paciente != isNaN && state.sobrenome_paciente != "") {
+        if (state.cpf_paciente != isNaN && state.cpf_paciente != "") {
+          if (state.celular_paciente != isNaN && state.celular_paciente != "") {
+            firebase
+              .database()
+              .ref("PACIENTE")
+              .child(this.state.uid)
+              .update({
+                nome_paciente: state.nome_paciente,
+                sobrenome_paciente: state.sobrenome_paciente,
+                cpf_paciente: state.cpf_paciente,
+                celular_paciente: state.celular_paciente
+              });
+            alert("Dados alterados com sucesso");
+          } else {
+            alert("Preencha campo Celular");
+          }
+        } else {
+          alert("Preencha campo CPF");
+        }
+      } else {
+        alert("Preencha campo Sobrenome");
+      }
+    } else {
+      alert("Preencha campo Nome");
+    }
+  };
 
   render() {
     return (
@@ -262,7 +292,10 @@ class DadosPessoais extends Component {
                   mask={"([00]) [0] [0000]-[0000]"}
                 />
               </View>
-              <TouchableOpacity style={styles.btnAlterarDados}>
+              <TouchableOpacity
+                style={styles.btnAlterarDados}
+                onPress={this.alterarDadosPaciente}
+              >
                 <Text style={styles.txtBtn}>ALTERAR DADOS</Text>
               </TouchableOpacity>
             </View>

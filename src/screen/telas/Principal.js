@@ -57,16 +57,11 @@ export default class Principal extends Component {
         { key: "7", nome: "Bonieky", valor: 70 },
         { key: "8", nome: "asd", valor: 150 }
       ],
-      flatNutri: [
-        { key: "1", nome: "Dr.Fabricio" },
-        { key: "2", nome: "Dr.Fabio" },
-        { key: "3", nome: "Dr.Fabio" },
-        { key: "4", nome: "Dr.Fabio" },
-        { key: "5", nome: "Dr.Fabio" }
-      ]
+      flatNutri: []
     };
     console.disableYellowBox = true;
     this.enviarNutri = this.enviarNutri.bind(this);
+    this.setState({ isModalVisible: !this.state.isModalVisible });
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -88,6 +83,24 @@ export default class Principal extends Component {
         firebase.auth().signOut();
       }
     });
+
+    firebase
+      .database()
+      .ref("NUTRICIONISTA")
+      .once("value", snapshot => {
+        let state = this.state;
+        state.flatNutri = [];
+
+        snapshot.forEach(childItem => {
+          state.flatNutri.push({
+            key: childItem.key,
+            nome: childItem.val().nome_nutri,
+            sobrenome: childItem.val().sobrenome_nutri,
+            crn: childItem.val().crn_nutri
+          });
+        });
+        this.setState(state);
+      });
   }
 
   enviarNutri = () => {
@@ -102,6 +115,7 @@ export default class Principal extends Component {
       </View>
     );
   }
+
   flatNutri(item) {
     return (
       <View style={styles.dadosPessoaisN}>
@@ -109,10 +123,16 @@ export default class Principal extends Component {
           style={styles.flatfoto}
           source={require("../../img/perfil.jpg")}
         />
-        <Text style={styles.cxGraficoTxtSub}>{item.nome}</Text>
+        <View style={styles.flatTxt}>
+          <Text>
+            {item.nome} {item.sobrenome}
+          </Text>
+          <Text>CRN: {item.crn}</Text>
+        </View>
       </View>
     );
   }
+
   toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };
@@ -222,7 +242,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     justifyContent: "space-around",
     flexDirection: "row",
-    padding: 5
+    padding: 5,
+    shadowColor: "#000",
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
+    elevation: 1,
+    margin: 5
   },
   cxDados: {
     flex: 1
@@ -364,6 +389,14 @@ const styles = StyleSheet.create({
   flatfoto: {
     width: 30,
     height: 30,
-    borderRadius: 400 / 2
+    borderRadius: 400 / 2,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  flatTxt: {
+    marginLeft: 10,
+    flexDirection: "column",
+    justifyContent: "center",
+    flex: 2
   }
 });

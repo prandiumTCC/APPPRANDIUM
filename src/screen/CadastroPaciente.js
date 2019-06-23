@@ -8,8 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Keyboard,
-  KeyboardAvoidingView
+  Keyboard
 } from "react-native";
 
 export default class CadastroPaciente extends Component {
@@ -109,7 +108,7 @@ export default class CadastroPaciente extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView behavior="padding">
+      <View>
         <ScrollView>
           <View style={styles.container}>
             <Text style={styles.titleForm}>Nome</Text>
@@ -208,7 +207,7 @@ export default class CadastroPaciente extends Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
