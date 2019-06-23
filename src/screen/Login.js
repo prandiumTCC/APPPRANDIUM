@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Keyboard
+  Keyboard,
+  KeyboardAvoidingView
 } from "react-native";
 import Modal from "react-native-modal";
 export default class Login extends Component {
@@ -99,7 +100,7 @@ export default class Login extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <Text style={styles.title}>Bem-vindo</Text>
         <Text style={styles.titleForm}>E-mail</Text>
         <View style={styles.form}>
@@ -159,7 +160,7 @@ export default class Login extends Component {
             </TouchableOpacity>
           </View>
         </Modal>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

@@ -13,6 +13,7 @@ import ImagePicker from "react-native-image-picker";
 import RNFetchBlob from "react-native-fetch-blob";
 import Modal from "react-native-modal";
 import TextInputMask from "react-native-text-input-mask";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = RNFetchBlob.polyfill.Blob;
@@ -35,7 +36,12 @@ class DadosPessoais extends Component {
           navigation.navigate(`../Login`);
         }}
       >
-        <Text style={{ color: "#FFF", marginRight: 10 }}>Sair</Text>
+        <Ionicons
+          name={"md-log-out"}
+          size={24}
+          color={"#FFF"}
+          style={{ marginRight: 10 }}
+        />
       </TouchableOpacity>
     )
   });
@@ -202,7 +208,9 @@ class DadosPessoais extends Component {
                   placeholder="Digite seu nome"
                   underlineColorAndroid="transparent"
                   value={this.state.nome_paciente}
-                  onChangeText={nome_paciente => this.setState({nome_paciente})}
+                  onChangeText={nome_paciente =>
+                    this.setState({ nome_paciente })
+                  }
                 />
               </View>
               <Text style={styles.titleForm}>Sobrenome</Text>
@@ -213,44 +221,45 @@ class DadosPessoais extends Component {
                   placeholder="Digite seu sobrenome"
                   underlineColorAndroid="transparent"
                   value={this.state.sobrenome_paciente}
-                  onChangeText={sobrenome_paciente => this.setState({sobrenome_paciente})}
+                  onChangeText={sobrenome_paciente =>
+                    this.setState({ sobrenome_paciente })
+                  }
                 />
               </View>
               <Text style={styles.titleForm}>CPF</Text>
               <View style={styles.form}>
-              <TextInputMask
-                style={styles.input}
+                <TextInputMask
+                  style={styles.input}
                   autoCorrect={false}
                   keyboardType={"numeric"}
                   placeholder="Digite seu CPF"
                   underlineColorAndroid="transparent"
                   value={this.state.cpf_paciente}
-                underlineColorAndroid="transparent"
-                refInput={ref => {
-                  this.input = ref;
-                }}
-                onChangeText={cpf_paciente => this.setState({cpf_paciente})}
-                mask={"[000].[000].[000]-[00]"}
-              />
+                  underlineColorAndroid="transparent"
+                  refInput={ref => {
+                    this.input = ref;
+                  }}
+                  onChangeText={cpf_paciente => this.setState({ cpf_paciente })}
+                  mask={"[000].[000].[000]-[00]"}
+                />
               </View>
-
 
               <Text style={styles.titleForm}>CELULAR</Text>
               <View style={styles.form}>
-              <TextInputMask
+                <TextInputMask
                   style={styles.input}
                   autoCorrect={false}
                   keyboardType={"numeric"}
                   placeholder="Digite seu celular"
                   underlineColorAndroid="transparent"
                   value={this.state.celular_paciente}
-                refInput={ref => {
-                  this.input = ref;
-                }}
-                onChangeText={celular_paciente => {
-                  this.setState({ celular_paciente });
-                }}
-                mask={"([00]) [0] [0000]-[0000]"}
+                  refInput={ref => {
+                    this.input = ref;
+                  }}
+                  onChangeText={celular_paciente => {
+                    this.setState({ celular_paciente });
+                  }}
+                  mask={"([00]) [0] [0000]-[0000]"}
                 />
               </View>
               <TouchableOpacity style={styles.btnAlterarDados}>

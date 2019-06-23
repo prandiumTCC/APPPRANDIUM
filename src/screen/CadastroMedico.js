@@ -6,7 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Keyboard
+  Keyboard,
+  KeyboardAvoidingView
 } from "react-native";
 import firebase from "../connection/firebaseConnnection";
 import TextInputMask from "react-native-text-input-mask";

@@ -7,7 +7,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import firebase from "../../connection/firebaseConnnection";
-
+import Ionicons from "react-native-vector-icons/Ionicons";
 class PlanoAlimentar extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: "Plano Alimentar",
@@ -26,7 +26,12 @@ class PlanoAlimentar extends Component {
           navigation.navigate(`../Login`);
         }}
       >
-        <Text style={{ color: "#FFF", marginRight: 10 }}>Sair</Text>
+        <Ionicons
+          name={"md-log-out"}
+          size={24}
+          color={"#FFF"}
+          style={{ marginRight: 10 }}
+        />
       </TouchableOpacity>
     )
   });

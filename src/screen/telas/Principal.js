@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import firebase from "../../connection/firebaseConnnection";
 import Modal from "react-native-modal";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default class Principal extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -29,7 +30,12 @@ export default class Principal extends Component {
           navigation.navigate(`../Login`);
         }}
       >
-        <Text style={{ color: "#FFF", marginRight: 10 }}>Sair</Text>
+        <Ionicons
+          name={"md-log-out"}
+          size={24}
+          color={"#FFF"}
+          style={{ marginRight: 10 }}
+        />
       </TouchableOpacity>
     )
   });
@@ -37,9 +43,9 @@ export default class Principal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-       nomePaciente: '',
-       sobrenomePaciente: '',
-       uid:'',
+      nomePaciente: "",
+      sobrenomePaciente: "",
+      uid: "",
       isModalVisible: false,
       flatGrafico: [
         { key: "1", nome: "Bonieky", valor: 70 },
@@ -61,7 +67,7 @@ export default class Principal extends Component {
     };
     console.disableYellowBox = true;
     this.enviarNutri = this.enviarNutri.bind(this);
-    
+
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         let state = this.state;
@@ -82,9 +88,8 @@ export default class Principal extends Component {
         firebase.auth().signOut();
       }
     });
-
   }
-  
+
   enviarNutri = () => {
     alert("enviando dados");
   };
@@ -113,7 +118,6 @@ export default class Principal extends Component {
   };
 
   render() {
-    
     return (
       <View style={styles.fundo}>
         <View style={styles.dadosPessoais}>
@@ -124,7 +128,9 @@ export default class Principal extends Component {
             />
           </View>
           <View style={styles.cxDados}>
-            <Text>Nome: {this.state.nomePaciente} {this.state.sobrenomePaciente}</Text>
+            <Text>
+              Nome: {this.state.nomePaciente} {this.state.sobrenomePaciente}
+            </Text>
             <TouchableOpacity
               style={styles.btnPesquisar}
               onPress={this.toggleModal}

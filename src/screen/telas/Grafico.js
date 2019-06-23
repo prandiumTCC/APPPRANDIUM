@@ -9,6 +9,7 @@ import {
 import { LineChart, ProgressChart, PieChart } from "react-native-chart-kit";
 import firebase from "../../connection/firebaseConnnection";
 import { Dimensions } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 class Grafico extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -28,7 +29,12 @@ class Grafico extends Component {
           navigation.navigate(`../Login`);
         }}
       >
-        <Text style={{ color: "#FFF", marginRight: 10 }}>Sair</Text>
+        <Ionicons
+          name={"md-log-out"}
+          size={24}
+          color={"#FFF"}
+          style={{ marginRight: 10 }}
+        />
       </TouchableOpacity>
     )
   });
