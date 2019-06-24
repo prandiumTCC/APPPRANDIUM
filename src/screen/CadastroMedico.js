@@ -36,7 +36,8 @@ export default class CadastroMedico extends Component {
       crn_nutri: "",
       email_nutri: "",
       senha_nutri: "",
-      perfil_nutri: 3
+      perfil_nutri: 3,
+      uidUser: ''
     };
 
     this.cadastarUser = this.cadastarUser.bind(this);
@@ -61,8 +62,15 @@ export default class CadastroMedico extends Component {
             perfil: state.perfil_nutri,
             useruid: user.uid
           });
+        // alert(user.uid);
+        firebase.database().ref("NUTRICIONISTA").child(user.uid).child("DATANUTRI").set({
+          consulta_nutri: 0,
+          solicitacoes: 0,
+          conversas: 0,
+          pendencia: 0
+        });
         alert("Nutricionista cadastrado com sucesso");
-        this.props.navigation.navigate("./bottomNavigation/Bottomtab");
+        this.props.navigation.navigate("./bottomNavigationNutri/BottomtabNutri");
       }
     });
   }

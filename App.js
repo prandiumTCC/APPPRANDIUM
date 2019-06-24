@@ -8,6 +8,7 @@ import BottomtabADM from "./src/screen/bottomNavigation/BottomtabADM";
 import CadastroPaciente from "./src/screen/CadastroPaciente";
 import CadastroMedico from "./src/screen/CadastroMedico";
 import Conversa from "./src/screen/telas/Conversa";
+import './src/config/reactotronConfig';
 console.disableYellowBox = true;
 const navegation = createStackNavigator({
   Preload: {

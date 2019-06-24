@@ -44,7 +44,7 @@ export default class PrincipalPaciente extends Component {
     super(props);
     this.state = {
       uid: "",
-      flatNutri: []
+      flatPC: []
     };
     console.disableYellowBox = true;
 
@@ -65,11 +65,10 @@ export default class PrincipalPaciente extends Component {
       .ref("PACIENTE")
       .on("value", snapshot => {
         let state = this.state;
-        state.flatNutri = [];
-
+        state.flatPC = [];
         snapshot.forEach(childItem => {
           if (childItem.val().sts_paciente == 0) {
-            state.flatNutri.push({
+            state.flatPC.push({
               key: childItem.key,
               id: childItem.val().useruid,
               nome: childItem.val().nome_paciente,
@@ -137,7 +136,7 @@ export default class PrincipalPaciente extends Component {
       <View style={styles.fundo}>
         <FlatList
           style={styles.flat}
-          data={this.state.flatNutri}
+          data={this.state.flatPC}
           renderItem={({ item }) => this.boxPac(item)}
         />
       </View>

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import Principal from '../telas/Principal';
 
+import DadosPessoaisNutri from '../telas/DadosPessoaisNutri';
 
 const NavegadorStack = createStackNavigator({
-  Principal: {
-    screen: Principal,
+  Pessoais: {
+    screen: DadosPessoaisNutri
   },
-},{
-  headerLayoutPreset:'center'
-});
+
+}, {
+    headerLayoutPreset: 'center'
+  });
 const AppContainer = createAppContainer(NavegadorStack);
 export default AppContainer;

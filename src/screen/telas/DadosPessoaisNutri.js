@@ -18,7 +18,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = RNFetchBlob.polyfill.Blob;
 
-class DadosPessoais extends Component {
+class DadosPessoaisNutri extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: "Dados Pessoais",
     headerStyle: {
@@ -52,10 +52,11 @@ class DadosPessoais extends Component {
       uid: "",
       pct: 0,
       isModalVisible: false,
-      nome_paciente: "",
-      sobrenome_paciente: "",
-      cpf_paciente: "",
-      celular_paciente: ""
+      nome_nutri: "",
+      sobrenome_nutri: "",
+      cpf_nutri: "",
+      crn_nutri: "",
+      celular_nutri: ""
     };
     console.disableYellowBox = true;
     this.getPhoto = this.getPhoto.bind(this);
@@ -68,14 +69,15 @@ class DadosPessoais extends Component {
         // alert(this.state.uid);
         firebase
           .database()
-          .ref("PACIENTE")
+          .ref("NUTRICIONISTA")
           .child(this.state.uid)
           .once("value", snapshot => {
             let state = this.state;
-            state.nome_paciente = snapshot.val().nome_paciente;
-            state.sobrenome_paciente = snapshot.val().sobrenome_paciente;
-            state.cpf_paciente = snapshot.val().cpf_paciente;
-            state.celular_paciente = snapshot.val().celular_paciente;
+            state.nome_nutri = snapshot.val().nome_nutri;
+            state.sobrenome_nutri = snapshot.val().sobrenome_nutri;
+            state.cpf_nutri = snapshot.val().cpf_nutri;
+            state.crn_nutri = snapshot.val().crn_nutri;
+            state.celular_nutri = snapshot.val().celular_nutri;
             this.setState(state);
           });
       } else {
@@ -156,23 +158,28 @@ class DadosPessoais extends Component {
   };
   alterarDadosPaciente = () => {
     let state = this.state;
-    if (state.nome_paciente != isNaN && state.nome_paciente != "") {
-      if (state.sobrenome_paciente != isNaN && state.sobrenome_paciente != "") {
-        if (state.cpf_paciente.length = 14 && state.cpf_paciente != "") {
-          if (state.celular_paciente != isNaN && state.celular_paciente != "") {
-            firebase
-              .database()
-              .ref("PACIENTE")
-              .child(this.state.uid)
-              .update({
-                nome_paciente: state.nome_paciente,
-                sobrenome_paciente: state.sobrenome_paciente,
-                cpf_paciente: state.cpf_paciente,
-                celular_paciente: state.celular_paciente
-              });
-            alert("Dados alterados com sucesso");
+    if (state.nome_nutri != isNaN && state.nome_nutri != "") {
+      if (state.sobrenome_nutri != isNaN && state.sobrenome_nutri != "") {
+        if (state.cpf_nutri.length = 14 && state.cpf_nutri != "") {
+          if (state.crn_nutri != isNaN && state.crn_nutri != "") {
+            if (state.celular_nutri != isNaN && state.celular_nutri != "") {
+              firebase
+                .database()
+                .ref("NUTRICIONISTA")
+                .child(this.state.uid)
+                .update({
+                  nome_nutri: state.nome_nutri,
+                  sobrenome_nutri: state.sobrenome_nutri,
+                  cpf_nutri: state.cpf_nutri,
+                  crn_nutri: state.crn_nutri,
+                  celular_nutri: state.celular_nutri,
+                });
+              alert("Dados nutricionista alterado");
+            } else {
+              alert("Preencha campo Celular");
+            }
           } else {
-            alert("Preencha campo Celular");
+            alert("Preencha campo Crn");
           }
         } else {
           alert("Preencha campo CPF");
@@ -237,9 +244,9 @@ class DadosPessoais extends Component {
                   autoCorrect={false}
                   placeholder="Digite seu nome"
                   underlineColorAndroid="transparent"
-                  value={this.state.nome_paciente}
-                  onChangeText={nome_paciente =>
-                    this.setState({ nome_paciente })
+                  value={this.state.nome_nutri}
+                  onChangeText={nome_nutri =>
+                    this.setState({ nome_nutri })
                   }
                 />
               </View>
@@ -250,9 +257,9 @@ class DadosPessoais extends Component {
                   autoCorrect={false}
                   placeholder="Digite seu sobrenome"
                   underlineColorAndroid="transparent"
-                  value={this.state.sobrenome_paciente}
-                  onChangeText={sobrenome_paciente =>
-                    this.setState({ sobrenome_paciente })
+                  value={this.state.sobrenome_nutri}
+                  onChangeText={sobrenome_nutri =>
+                    this.setState({ sobrenome_nutri })
                   }
                 />
               </View>
@@ -264,13 +271,26 @@ class DadosPessoais extends Component {
                   keyboardType={"numeric"}
                   placeholder="Digite seu CPF"
                   underlineColorAndroid="transparent"
-                  value={this.state.cpf_paciente}
+                  value={this.state.cpf_nutri}
                   underlineColorAndroid="transparent"
                   refInput={ref => {
                     this.input = ref;
                   }}
-                  onChangeText={cpf_paciente => this.setState({ cpf_paciente })}
+                  onChangeText={cpf_nutri => this.setState({ cpf_nutri })}
                   mask={"[000].[000].[000]-[00]"}
+                />
+              </View>
+              <Text style={styles.titleForm}>CRN</Text>
+              <View style={styles.form}>
+                <TextInput
+                  style={styles.input}
+                  autoCorrect={false}
+                  placeholder="Digite seu sobrenome"
+                  underlineColorAndroid="transparent"
+                  value={this.state.crn_nutri}
+                  onChangeText={crn_nutri =>
+                    this.setState({ crn_nutri })
+                  }
                 />
               </View>
 
@@ -282,12 +302,12 @@ class DadosPessoais extends Component {
                   keyboardType={"numeric"}
                   placeholder="Digite seu celular"
                   underlineColorAndroid="transparent"
-                  value={this.state.celular_paciente}
+                  value={this.state.celular_nutri}
                   refInput={ref => {
                     this.input = ref;
                   }}
-                  onChangeText={celular_paciente => {
-                    this.setState({ celular_paciente });
+                  onChangeText={celular_nutri => {
+                    this.setState({ celular_nutri });
                   }}
                   mask={"([00]) [0] [0000]-[0000]"}
                 />
@@ -392,4 +412,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   }
 });
-export default DadosPessoais;
+export default DadosPessoaisNutri;

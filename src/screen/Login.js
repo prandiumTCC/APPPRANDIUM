@@ -42,14 +42,51 @@ export default class Login extends Component {
         //Nutri ou Paci
         firebase.database().ref('PACIENTE').child(user.uid).once('value')
           .then((snap) => {
-            if (snap.val().perfil == 2) {
-              this.props.navigation.navigate('./telas/Principal');
-            } else if (snap.val().perfil == 1) {
-              this.props.navigation.navigate('./telas/PrincipalADM');
+            if (snap.val().perfil == 2 && snap.val().sts_paciente == 0) {
+              //alert("1" + user.uid);
+              this.props.navigation.navigate('Bottomtab');
             } else {
-              //this.props.navigation.navigate('./telas/PrincipalNutri');
+              firebase.auth().signOut();
+              alert("Suas credênciais foram revogadas, entre em contato com ADM");
+              this.props.navigation.navigate('Login');
             }
           });
+
+        firebase.database().ref('NUTRICIONISTA').child(user.uid).once('value')
+          .then((snap) => {
+            if (snap.val().perfil == 3 && snap.val().sts_nutri == 0) {
+
+              this.props.navigation.navigate('BottomtabNutri');
+            } else {
+              firebase.auth().signOut();
+              alert("Suas credênciais foram revogadas, entre em contato com ADM");
+              this.props.navigation.navigate('Login');
+            }
+          });
+
+        // firebase.database().ref('ADM').child(user.uid).once('value')
+        //   .then((snap) => {
+        //     if (snap.val().perfil == 1) {
+        //       //alert("Entrou porra   " + user.uid);
+        //       this.props.navigation.navigate('BottomtabADM');
+        //     } else {
+        //       firebase.auth().signOut();
+        //       this.props.navigation.navigate('Login');
+        //     }
+        //   });
+        //   firebase.database().ref('PACIENTE').child(user.uid).once('value')
+        //     .then((snap) => {
+        //       if (snap.val().perfil == 2 && snap.val().sts_paciente == 0) {
+        //         this.props.navigation.navigate('./telas/Principal');
+        //       } else if (snap.val().perfil == 1) {
+        //         this.props.navigation.navigate('./telas/PrincipalADM');
+        //       } else if (snap.val().perfil == 3 && snap.val().sts_nutri == 0) {
+        //         this.props.navigation.navigate('./telas/PrincipalNutri');
+        //       } else {
+        //         alert("Suas credênciais foram revogadas, entre em contato com ADM");
+        //         this.props.navigation.navigate('Login');
+        //       }
+        //     });
         this.closeKeyBord();
       }
     });

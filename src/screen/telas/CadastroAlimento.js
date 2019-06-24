@@ -55,26 +55,25 @@ export default class PrincipalPaciente extends Component {
         this.setState(state);
         // alert(this.state.uid)
 
-
-        firebase.database().ref('ALIMENTO').on('value', (snap) => {
-          let state = this.state;
-          state.lista = [];
-          snap.forEach((childItem) => {
-            if (childItem.val().sts_alimento == 0) {
-              state.lista.push({
-                key: childItem.key,
-                nameAliment: childItem.val().nome_alimento,
-                calAliment: childItem.val().coloria_alimento
-              });
-            }
-          });
-          this.setState(state);
-        })
-
       } else {
         firebase.auth().signOut();
       }
     });
+
+    firebase.database().ref('ALIMENTO').on('value', (snap) => {
+      let state = this.state;
+      state.lista = [];
+      snap.forEach((childItem) => {
+        if (childItem.val().sts_alimento == 0) {
+          state.lista.push({
+            key: childItem.key,
+            nameAliment: childItem.val().nome_alimento,
+            calAliment: childItem.val().coloria_alimento
+          });
+        }
+      });
+      this.setState(state);
+    })
 
     this.cadastrar = this.cadastrar.bind(this);
     this.desativar = this.desativar.bind(this);
@@ -97,12 +96,39 @@ export default class PrincipalPaciente extends Component {
     }
   }
 
-  desativar = (item) => {
-    firebase.database().ref('ALIMENTO').child(item.key).update({
-      sts_alimento: 1
-    });
+  desativar = (id) => {
+    // firebase.database().ref('ALIMENTO').child(id).update({
+    //   sts_alimento: 1
+    // });
 
-    alert('Produto deletado!');
+    alert('Produto deletado!' + id);
+  }
+
+  listaAli(item) {
+    return (
+      <View>
+        <View style={styles.boxAlimentos}>
+          <View style={styles.subTitleAlimentos}>
+            <Text style={styles.txtSubTitle}>Nome</Text>
+            <Text style={styles.txtSubTitle}>Porção</Text>
+            <Text style={styles.txtSubTitle}>Remover</Text>
+          </View>
+          <View style={styles.itemAlimentos}>
+            <Text style={styles.txtItemAlimento}>{item.nameAliment}</Text>
+            <Text style={styles.txtItemAlimento}>{item.calAliment}</Text>
+            <View style={styles.buttonDisable}>
+              <TouchableOpacity
+                onPress={() => this.desativar(item.id)}
+              >
+                <Ionicons name={"md-trash"} color="white" size={20} />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+        </View>
+
+      </View>
+    );
   }
 
   render() {
@@ -141,33 +167,6 @@ export default class PrincipalPaciente extends Component {
             renderItem={({ item }) => this.listaAli(item)}
           />
         </View>
-      </View>
-    );
-  }
-
-  listaAli(item) {
-    return (
-      <View>
-        <View style={styles.boxAlimentos}>
-          <View style={styles.subTitleAlimentos}>
-            <Text style={styles.txtSubTitle}>Nome</Text>
-            <Text style={styles.txtSubTitle}>Porção</Text>
-            <Text style={styles.txtSubTitle}>Remover</Text>
-          </View>
-          <View style={styles.itemAlimentos}>
-            <Text style={styles.txtItemAlimento}>{item.nameAliment}</Text>
-            <Text style={styles.txtItemAlimento}>{item.calAliment}</Text>
-            <View style={styles.buttonDisable}>
-              <TouchableOpacity
-                onPress={() => this.desativar(item.id)}
-              >
-                <Ionicons name={"md-trash"} color="white" size={20} />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-        </View>
-
       </View>
     );
   }

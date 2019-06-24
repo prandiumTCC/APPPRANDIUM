@@ -40,9 +40,9 @@ export default class Preload extends Component {
 
         firebase.database().ref('NUTRICIONISTA').child(user.uid).once('value')
           .then((snap) => {
-            if (snap.val().perfil == 3) {
-              //alert("2" + user.uid);
-              //this.props.navigation.navigate('./telas/Principal');
+            if (snap.val().perfil == 3 && snap.val().sts_nutri == 0) {
+
+              this.props.navigation.navigate('BottomtabNutri');
             } else {
               firebase.auth().signOut();
               alert("Suas credênciais foram revogadas, entre em contato com ADM");
@@ -57,7 +57,6 @@ export default class Preload extends Component {
               this.props.navigation.navigate('BottomtabADM');
             } else {
               firebase.auth().signOut();
-              alert("Suas credênciais foram revogadas, entre em contato com ADM");
               this.props.navigation.navigate('Login');
             }
           });

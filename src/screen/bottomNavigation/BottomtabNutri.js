@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import { createBottomTabNavigator, createAppContainer } from "react-navigation";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import LinkPagePrincipal from "../stackNavigation/LinkPagePrincipal";
-import DadosPessoais from "../stackNavigation/LinkPageDados";
-import PlanoAlimentar from "../stackNavigation/LinkPagePlano";
-import Chat from "../stackNavigation/LinkPageChat";
-import Grafico from "../stackNavigation/LinkPageGrafic";
+import LinkPagePrincipal from "../stackNavigationNutri/LinkPagePrincipalNutri";
+import DadosPessoaisNutri from "../stackNavigationNutri/LinkPageDadosNutri";
+import PlanoAlimentar from "../stackNavigationNutri/LinkPagePlanoNutri";
+// import Chat from "../stackNavigation/LinkPageChat";
+// import Grafico from "../stackNavigation/LinkPageGrafic";
 
 const Navegador = createBottomTabNavigator(
   {
     Principal: LinkPagePrincipal,
-    DadosPessoais: DadosPessoais,
+    DadosPessoaisNutri: DadosPessoaisNutri,
     PlanoAlimentar: PlanoAlimentar,
-    Chat: Chat,
-    Grafico: Grafico
+    // Chat: Chat,
+    // Grafico: Grafico
   },
   {
     initialRouteName: "Principal",
@@ -30,15 +30,17 @@ const Navegador = createBottomTabNavigator(
 
         if (routeName === "Principal") {
           icoName = "md-home";
-        } else if (routeName === "DadosPessoais") {
+        } else if (routeName === "DadosPessoaisNutri") {
           icoName = "md-person";
-        } else if (routeName === "PlanoAlimentar") {
-          icoName = "md-list";
-        } else if (routeName === "Chat") {
-          icoName = "md-chatbubbles";
-        } else if (routeName === "Grafico") {
-          icoName = "md-clipboard";
         }
+        else if (routeName === "PlanoAlimentar") {
+          icoName = "md-list";
+        }
+        //  else if (routeName === "Chat") {
+        //   icoName = "md-chatbubbles";
+        // } else if (routeName === "Grafico") {
+        //   icoName = "md-clipboard";
+        // }
         return <IconComponent name={icoName} size={24} color={tintColor} />;
       }
     })
