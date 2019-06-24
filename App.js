@@ -6,7 +6,7 @@ import Bottomtab from "./src/screen/bottomNavigation/Bottomtab";
 import CadastroPaciente from "./src/screen/CadastroPaciente";
 import CadastroMedico from "./src/screen/CadastroMedico";
 import Conversa from "./src/screen/telas/Conversa";
-
+console.disableYellowBox = true;
 const navegation = createStackNavigator({
   Preload: {
     screen: Preload
