@@ -52,8 +52,9 @@ export default class CadastroPaciente extends Component {
             cpf_paciente: state.cpf_paciente,
             celular_paciente: state.celular_paciente,
             email_paciente: state.email_paciente,
-            perfil_paciente: state.perfil_paciente,
-            sts_paciente: state.sts_paciente
+            perfil: state.perfil_paciente,
+            sts_paciente: state.sts_paciente,
+            useruid: user.uid
           });
         alert("Paciente cadastrado com sucesso");
         this.props.navigation.navigate("./bottomNavigation/Bottomtab");

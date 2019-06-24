@@ -3,6 +3,8 @@ import Preload from "./src/screen/Preload";
 import Login from "./src/screen/Login";
 import RecPSW from "./src/screen/RecPSW";
 import Bottomtab from "./src/screen/bottomNavigation/Bottomtab";
+import BottomtabNutri from "./src/screen/bottomNavigation/BottomtabNutri";
+import BottomtabADM from "./src/screen/bottomNavigation/BottomtabADM";
 import CadastroPaciente from "./src/screen/CadastroPaciente";
 import CadastroMedico from "./src/screen/CadastroMedico";
 import Conversa from "./src/screen/telas/Conversa";
@@ -19,6 +21,20 @@ const navegation = createStackNavigator({
   },
   Bottomtab: {
     screen: Bottomtab,
+    navigationOptions: {
+      title: null,
+      header: null
+    }
+  },
+  BottomtabNutri: {
+    screen: BottomtabNutri,
+    navigationOptions: {
+      title: null,
+      header: null
+    }
+  },
+  BottomtabADM: {
+    screen: BottomtabADM,
     navigationOptions: {
       title: null,
       header: null

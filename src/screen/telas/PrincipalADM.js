@@ -6,16 +6,15 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  TextInput
+  TextInput,
 } from "react-native";
 import firebase from "../../connection/firebaseConnnection";
 import Modal from "react-native-modal";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { TouchableHighlight } from "react-native-gesture-handler";
 
-export default class Principal extends Component {
+export default class PrincipalADM extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: "Principal",
+    title: "Nutricionistas",
     headerStyle: {
       backgroundColor: "#444A5A"
     },
@@ -44,24 +43,11 @@ export default class Principal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nomePaciente: "",
-      sobrenomePaciente: "",
       uid: "",
-      isModalVisible: false,
-      flatGrafico: [
-        { key: "1", nome: "Bonieky", valor: 70 },
-        { key: "2", nome: "asd", valor: 150 },
-        { key: "3", nome: "Bonieky", valor: 70 },
-        { key: "4", nome: "asd", valor: 150 },
-        { key: "5", nome: "Bonieky", valor: 70 },
-        { key: "6", nome: "asd", valor: 150 },
-        { key: "7", nome: "Bonieky", valor: 70 },
-        { key: "8", nome: "asd", valor: 150 }
-      ],
       flatNutri: []
     };
     console.disableYellowBox = true;
-
+    this.enviarNutri = this.enviarNutri.bind(this);
     this.setState({ isModalVisible: !this.state.isModalVisible });
 
     firebase.auth().onAuthStateChanged(user => {
@@ -70,16 +56,7 @@ export default class Principal extends Component {
         state.uid = user.uid;
         this.setState(state);
         // alert(this.state.uid);
-        firebase
-          .database()
-          .ref("PACIENTE")
-          .child(this.state.uid)
-          .once("value", snapshot => {
-            let state = this.state;
-            state.nomePaciente = snapshot.val().nome_paciente;
-            state.sobrenomePaciente = snapshot.val().sobrenome_paciente;
-            this.setState(state);
-          });
+
       } else {
         firebase.auth().signOut();
       }
@@ -95,14 +72,21 @@ export default class Principal extends Component {
         snapshot.forEach(childItem => {
           state.flatNutri.push({
             key: childItem.key,
+            id: childItem.val().useruid,
             nome: childItem.val().nome_nutri,
-            sobrenome: childItem.val().sobrenome_nutri,
+            sobrenomme: childItem.val().sobrenome_nutri,
             crn: childItem.val().crn_nutri
           });
         });
         this.setState(state);
       });
+
+    this.desativar = this.desativar.bind(this);
   }
+
+  enviarNutri = () => {
+    alert("enviando dados");
+  };
 
   flatGrafRender(item) {
     return (
@@ -126,12 +110,6 @@ export default class Principal extends Component {
           </Text>
           <Text>CRN: {item.crn}</Text>
         </View>
-        <TouchableHighlight
-          style={styles.buttonSolicit}
-          onPress={() => null}
-        >
-          <Ionicons name={"md-send"} color={"blue"} size={15} />
-        </TouchableHighlight>
       </View>
     );
   }
@@ -140,70 +118,44 @@ export default class Principal extends Component {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };
 
-  render() {
+  desativar = (id) => {
+    //TEM QUE DESATIVAR ESSA PORRA!
+  }
+
+  boxNutri = (item) => {
     return (
-      <View style={styles.fundo}>
-        <View style={styles.dadosPessoais}>
-          <View style={styles.cxFoto}>
+      <View style={styles.cxNutricionista}>
+        <View style={styles.boxNutri}>
+          <View style={styles.fotoNutri}>
             <Image
               style={styles.img}
               source={require("../../img/perfil.jpg")}
             />
           </View>
-          <View style={styles.cxDados}>
-            <Text>
-              Nome: {this.state.nomePaciente} {this.state.sobrenomePaciente}
-            </Text>
+          <View style={styles.dadosNutri}>
+            <Text style={styles.infoNutri}>{item.nome} {item.sobrenomme}</Text>
+            <Text style={styles.infoNutri}>CRN: {item.crn}</Text>
+          </View>
+          <View style={styles.buttonDisable}>
             <TouchableOpacity
-              style={styles.btnPesquisar}
-              onPress={this.toggleModal}
+              onPress={() => this.desativar(item.id)}
             >
-              <Text>Pesquisar nutricionista</Text>
+              <Ionicons name={"md-trash"} color="white" size={20} />
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.cxResumoDesempenho}>
-          <Text style={styles.titleResumoDesempenho}>Resumo desempenho</Text>
-          <FlatList
-            horizontal={true}
-            //guarda as informacoes
-            data={this.state.flatGrafico}
-            //redenriza os itens
-            renderItem={({ item }) => this.flatGrafRender(item)}
-          />
-        </View>
-        <View style={styles.cxNutricionista}>
-          <Text style={styles.titleNutricionista}>Seu Nutricionista</Text>
-          <View style={styles.boxNutri}>
-            <View style={styles.fotoNutri}>
-              <Image
-                style={styles.img}
-                source={require("../../img/perfil.jpg")}
-              />
-            </View>
-            <View style={styles.dadosNutri}>
-              <Text style={styles.infoNutri}>Nome: Thompson S.</Text>
-              <Text style={styles.infoNutri}>CRN: DF-0000x</Text>
-            </View>
-          </View>
-        </View>
+      </View>
+    );
+  };
 
-        <Modal isVisible={this.state.isModalVisible}>
-          <View style={styles.modalFundo}>
-            <TouchableOpacity
-              onPress={this.toggleModal}
-              style={styles.btnModalClose}
-            >
-              <Text style={styles.elementClose}>X</Text>
-            </TouchableOpacity>
-            <FlatList
-              style={styles.listnutriSeach}
-              horizontal={false}
-              data={this.state.flatNutri}
-              renderItem={({ item }) => this.flatNutri(item)}
-            />
-          </View>
-        </Modal>
+  render() {
+    return (
+      <View style={styles.fundo}>
+        <FlatList
+          style={styles.flat}
+          data={this.state.flatNutri}
+          renderItem={({ item }) => this.boxNutri(item)}
+        />
       </View>
     );
   }
@@ -211,7 +163,8 @@ export default class Principal extends Component {
 const styles = StyleSheet.create({
   fundo: {
     flex: 1,
-    backgroundColor: "#444A5A"
+    backgroundColor: "#444A5A",
+    padding: 10
   },
   dadosPessoais: {
     height: 100,
@@ -382,10 +335,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 2
   },
-  buttonSolicit: {
+  buttonDisable: {
     height: 40,
     width: 40,
-    backgroundColor: 'transparent',
+    backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'center'
   }

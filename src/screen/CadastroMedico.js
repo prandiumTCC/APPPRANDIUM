@@ -58,7 +58,8 @@ export default class CadastroMedico extends Component {
             sts_nutri: state.sts_nutri,
             celular_nutri: state.celular_nutri,
             email_nutri: state.email_nutri,
-            perfil_nutri: state.perfil_nutri
+            perfil: state.perfil_nutri,
+            useruid: user.uid
           });
         alert("Nutricionista cadastrado com sucesso");
         this.props.navigation.navigate("./bottomNavigation/Bottomtab");

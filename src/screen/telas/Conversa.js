@@ -11,6 +11,8 @@ import {
 import firebase from "../../connection/firebaseConnnection";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
+import Mensagens from "./Mensagens";
+
 export default class Conversa extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: "Conversa",
@@ -42,16 +44,8 @@ export default class Conversa extends Component {
   constructor(props) {
     super(props);
 
-    let bgColor = "#EEE";
-    let align = "flex-start";
-    let txtAlign = "left";
-
-    alert(this.props.me);
-
     this.state = {
-      bgColor: bgColor,
-      align: align,
-      textAlign: txtAlign,
+      bgColor: styles.balaoEsqueda,
       uid: "",
       tmpMsg: [
         { key: 1, date: "2019-01-01 23:58", uid: 123, m: "oi , blz?" },
@@ -64,36 +58,25 @@ export default class Conversa extends Component {
         { key: 3, date: "2019-01-01 23:58", uid: 123, m: "blz" }
       ]
     };
-    if (this.state.tmpMsg.uid == this.state.uid) {
-      bgColor = "#9999FF";
-      align = "flex-end";
-    }
+
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         let state = this.state;
         state.uid = user.uid;
         this.setState(state);
-
-        // alert(this.state.uid);
+        this.UID = this.state.uid;
+        firebase.database().ref('PACIENTE').child(this.state.uid).once('value').then((snapshot) => {
+          this.UID = snapshot.val().useruid;
+        })
       } else {
         firebase.auth().signOut();
       }
     });
   }
 
-  msg(item) {
-    return (
-      <View
-        style={[
-          styles.area,
-          { alignSelf: this.state.align, backgroundColor: this.state.bgColor }
-        ]}
-      >
-        <Text style={{ textAlign: this.state.textAlign }}>{item.m}</Text>
-        <Text style={styles.dataTxt}>{item.date}</Text>
-      </View>
-    );
+  componentDidMount() {
+
   }
 
   render() {
@@ -102,7 +85,9 @@ export default class Conversa extends Component {
         <FlatList
           style={styles.chatArea}
           data={this.state.tmpMsg}
-          renderItem={({ item }) => this.msg(item)}
+          renderItem={({ item }) =>
+            <Mensagens UID={this.UID} />
+          }
         />
         <View style={styles.sendArea}>
           <TextInput style={styles.sendInput} />
@@ -154,5 +139,13 @@ const styles = StyleSheet.create({
   dataTxt: {
     fontSize: 11,
     textAlign: "right"
+  },
+  balaoEsqueda: {
+    backgroundColor: "#FFF",
+    alignSelf: "flex-start"
+  },
+  balaoDireita: {
+    backgroundColor: "red",
+    alignSelf: "flex-end"
   }
 });

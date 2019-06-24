@@ -6,8 +6,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Keyboard,
-  KeyboardAvoidingView
+  Keyboard
 } from "react-native";
 import Modal from "react-native-modal";
 export default class Login extends Component {
@@ -39,13 +38,17 @@ export default class Login extends Component {
         let state = this.state;
         state.uid = user.uid;
         this.setState(state);
-        firebase
-          .database()
-          .ref("PACIENTE")
-          .child(user.uid)
-          .once("value")
-          .then(snapshot => {
-            this.props.navigation.navigate("./telas/Principal");
+
+        //Nutri ou Paci
+        firebase.database().ref('PACIENTE').child(user.uid).once('value')
+          .then((snap) => {
+            if (snap.val().perfil == 2) {
+              this.props.navigation.navigate('./telas/Principal');
+            } else if (snap.val().perfil == 1) {
+              this.props.navigation.navigate('./telas/PrincipalADM');
+            } else {
+              //this.props.navigation.navigate('./telas/PrincipalNutri');
+            }
           });
         this.closeKeyBord();
       }
@@ -100,7 +103,7 @@ export default class Login extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <View style={styles.container}>
         <Text style={styles.title}>Bem-vindo</Text>
         <Text style={styles.titleForm}>E-mail</Text>
         <View style={styles.form}>
@@ -160,7 +163,7 @@ export default class Login extends Component {
             </TouchableOpacity>
           </View>
         </Modal>
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }

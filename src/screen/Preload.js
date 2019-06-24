@@ -15,44 +15,59 @@ export default class Preload extends Component {
       netstatus: false
     };
 
-    // firebase.auth().signOut();
+    //firebase.auth().signOut();
     // NetInfo.addEventListener(status => {
     //   let state = this.state;
     //   state.netstatus = status.isConnected;
     //   this.setState(state);
     //   alert(this.state.netstatus);
     // });
-  }
 
-  componentDidMount = () => {
-    // if (this.state.netstatus == true) {
-    setTimeout(() => {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          // const resetAction = StackActions.reset({
-          //   index: 0,
-          //   actions: [
-          //     NavigationActions.navigate({
-          //       routeName: "../screen/telas/Principal"
-          //     })
-          //   ]
-          // });
-          // this.props.navigation.dispatch(resetAction);
-          this.props.navigation.navigate("Bottomtab");
-        } else {
-          // const resetAction = StackActions.reset({
-          //   index: 0,
-          //   actions: [NavigationActions.navigate({ routeName: "Login" })]
-          // });
-          // this.props.navigation.dispatch(resetAction);
-          this.props.navigation.navigate("Login");
-        }
-      });
-    }, 5000);
-    // } else {
-    //   alert("Seu dispositivo não esta conectado a internet");
-    // }
-  };
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        //Nutri ou Paci
+        firebase.database().ref('PACIENTE').child(user.uid).once('value')
+          .then((snap) => {
+            if (snap.val().perfil == 2) {
+              //alert("1" + user.uid);
+              this.props.navigation.navigate('Bottomtab');
+            }
+          });
+
+        firebase.database().ref('NUTRICIONISTA').child(user.uid).once('value')
+          .then((snap) => {
+            if (snap.val().perfil == 3) {
+              //alert("2" + user.uid);
+              //this.props.navigation.navigate('./telas/Principal');
+            }
+          });
+
+        firebase.database().ref('ADM').child(user.uid).once('value')
+          .then((snap) => {
+            if (snap.val().perfil == 1) {
+              //alert("Entrou porra   " + user.uid);
+              this.props.navigation.navigate('BottomtabADM');
+            }
+          });
+
+
+        /*
+          else if (snap.val().perfil == 1) {
+            this.props.navigation.navigate('./telas/PrincipalADM');
+          } else {
+            //this.props.navigation.navigate('./telas/PrincipalNutri');
+          }
+        */
+      } else {
+        // const resetAction = StackActions.reset({
+        //   index: 0,
+        //   actions: [NavigationActions.navigate({ routeName: "Login" })]
+        // });
+        // this.props.navigation.dispatch(resetAction);
+        this.props.navigation.navigate("Login");
+      }
+    });
+  }
 
   render() {
     return (
