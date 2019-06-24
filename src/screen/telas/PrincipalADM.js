@@ -47,8 +47,7 @@ export default class PrincipalADM extends Component {
       flatNutri: []
     };
     console.disableYellowBox = true;
-    this.enviarNutri = this.enviarNutri.bind(this);
-    this.setState({ isModalVisible: !this.state.isModalVisible });
+
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -65,18 +64,20 @@ export default class PrincipalADM extends Component {
     firebase
       .database()
       .ref("NUTRICIONISTA")
-      .once("value", snapshot => {
+      .on("value", snapshot => {
         let state = this.state;
         state.flatNutri = [];
 
         snapshot.forEach(childItem => {
-          state.flatNutri.push({
-            key: childItem.key,
-            id: childItem.val().useruid,
-            nome: childItem.val().nome_nutri,
-            sobrenomme: childItem.val().sobrenome_nutri,
-            crn: childItem.val().crn_nutri
-          });
+          if (childItem.val().sts_nutri == 0) {
+            state.flatNutri.push({
+              key: childItem.key,
+              id: childItem.val().useruid,
+              nome: childItem.val().nome_nutri,
+              sobrenomme: childItem.val().sobrenome_nutri,
+              crn: childItem.val().crn_nutri
+            });
+          }
         });
         this.setState(state);
       });
@@ -84,18 +85,9 @@ export default class PrincipalADM extends Component {
     this.desativar = this.desativar.bind(this);
   }
 
-  enviarNutri = () => {
-    alert("enviando dados");
-  };
 
-  flatGrafRender(item) {
-    return (
-      <View style={styles.cxGrafico}>
-        <Text style={styles.cxGraficoTXT}>{item.valor}</Text>
-        <Text style={styles.cxGraficoTxtSub}>{item.nome}</Text>
-      </View>
-    );
-  }
+
+
 
   flatNutri(item) {
     return (
@@ -114,12 +106,14 @@ export default class PrincipalADM extends Component {
     );
   }
 
-  toggleModal = () => {
-    this.setState({ isModalVisible: !this.state.isModalVisible });
-  };
+
 
   desativar = (id) => {
-    //TEM QUE DESATIVAR ESSA PORRA!
+    let user = firebase.database().ref("NUTRICIONISTA").child(id);
+    user.update({
+      sts_nutri: 1
+    });
+
   }
 
   boxNutri = (item) => {
@@ -340,6 +334,7 @@ const styles = StyleSheet.create({
     width: 40,
     backgroundColor: 'red',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    alignSelf: 'center',
   }
 });

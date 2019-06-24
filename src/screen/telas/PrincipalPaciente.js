@@ -47,7 +47,6 @@ export default class PrincipalPaciente extends Component {
       flatNutri: []
     };
     console.disableYellowBox = true;
-    this.enviarNutri = this.enviarNutri.bind(this);
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -64,17 +63,19 @@ export default class PrincipalPaciente extends Component {
     firebase
       .database()
       .ref("PACIENTE")
-      .once("value", snapshot => {
+      .on("value", snapshot => {
         let state = this.state;
         state.flatNutri = [];
 
         snapshot.forEach(childItem => {
-          state.flatNutri.push({
-            key: childItem.key,
-            id: childItem.val().useruid,
-            nome: childItem.val().nome_paciente,
-            sobrenomme: childItem.val().sobrenome_paciente,
-          });
+          if (childItem.val().sts_paciente == 0) {
+            state.flatNutri.push({
+              key: childItem.key,
+              id: childItem.val().useruid,
+              nome: childItem.val().nome_paciente,
+              sobrenomme: childItem.val().sobrenome_paciente,
+            });
+          }
         });
         this.setState(state);
       });
@@ -82,9 +83,6 @@ export default class PrincipalPaciente extends Component {
     this.desativar = this.desativar.bind(this);
   }
 
-  enviarNutri = () => {
-    alert("enviando dados");
-  };
 
 
   flatPac(item) {
@@ -104,7 +102,9 @@ export default class PrincipalPaciente extends Component {
   }
 
   desativar = (id) => {
-    //TEM QUE DESATIVAR ESSA PORRA!
+    firebase.database().ref("PACIENTE").child(id).update({
+      sts_paciente: 1
+    });
   }
 
   boxPac = (item) => {
@@ -182,24 +182,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontWeight: "bold"
   },
-  btnPesquisar: {
-    backgroundColor: "#ffee58",
-    borderRadius: 3,
-    height: 44,
-    marginTop: 10,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  cxResumoDesempenho: {
-    flex: 4,
-    padding: 10
-  },
-  titleResumoDesempenho: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#FFF",
-    marginLeft: 3
-  },
   cxGrafico: {
     backgroundColor: "#FFF",
     flexDirection: "column",
@@ -254,58 +236,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 2
   },
-  infoNutri: {
-    fontWeight: "bold"
-  },
-  modalFundo: {
-    backgroundColor: "#FFF",
-    borderRadius: 3,
-    padding: 10
-  },
-  btnModalClose: {
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
-    backgroundColor: "transparent"
-  },
-  elementClose: {
-    color: "red",
-    fontWeight: "bold",
-    fontSize: 18
-  },
-  titleModal: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10
-  },
-  txtModal: {
-    fontWeight: "bold"
-  },
-  btnSend: {
-    backgroundColor: "#839DCA",
-    borderRadius: 3,
-    height: 44,
-    marginTop: 10,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  txtBtn: {
-    color: "#FFF"
-  },
-  form: {
-    marginTop: 10 * 2
-  },
-  input: {
-    backgroundColor: "#FFF",
-    borderRadius: 10,
-    height: 44,
-    borderWidth: 1,
-    borderColor: "#000",
-    paddingHorizontal: 20
-  },
-  listnutriSeach: {
-    padding: 10,
-    height: 150
-  },
+
   flatfoto: {
     width: 30,
     height: 30,
@@ -324,6 +255,7 @@ const styles = StyleSheet.create({
     width: 40,
     backgroundColor: 'red',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    alignSelf: 'center',
   }
 });

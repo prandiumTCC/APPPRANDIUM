@@ -45,10 +45,6 @@ export default class PrincipalPaciente extends Component {
     this.state = {
       nomeAlimento: '',
       caloriasAlimento: '',
-      /*lista: [{
-        nameAliment: 'Teste',
-        calAliment: 1220
-      }]*/
       lista: []
     };
 
@@ -73,18 +69,7 @@ export default class PrincipalPaciente extends Component {
             }
           });
           this.setState(state);
-        });
-
-        /*firebase.database().ref('ALIMENTO').once('value', snap => {
-          state.lista = [];
-          state.lista.push({
-            nameAliment: snap.val().nome_alimento,
-            calAliment: snap.val().coloria_alimento
-          });
-
-          this.setState(state);
-        });*/
-
+        })
 
       } else {
         firebase.auth().signOut();

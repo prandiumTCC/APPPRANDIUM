@@ -28,9 +28,13 @@ export default class Preload extends Component {
         //Nutri ou Paci
         firebase.database().ref('PACIENTE').child(user.uid).once('value')
           .then((snap) => {
-            if (snap.val().perfil == 2) {
+            if (snap.val().perfil == 2 && snap.val().sts_paciente == 0) {
               //alert("1" + user.uid);
               this.props.navigation.navigate('Bottomtab');
+            } else {
+              firebase.auth().signOut();
+              alert("Suas credênciais foram revogadas, entre em contato com ADM");
+              this.props.navigation.navigate('Login');
             }
           });
 
@@ -39,6 +43,10 @@ export default class Preload extends Component {
             if (snap.val().perfil == 3) {
               //alert("2" + user.uid);
               //this.props.navigation.navigate('./telas/Principal');
+            } else {
+              firebase.auth().signOut();
+              alert("Suas credênciais foram revogadas, entre em contato com ADM");
+              this.props.navigation.navigate('Login');
             }
           });
 
@@ -47,6 +55,10 @@ export default class Preload extends Component {
             if (snap.val().perfil == 1) {
               //alert("Entrou porra   " + user.uid);
               this.props.navigation.navigate('BottomtabADM');
+            } else {
+              firebase.auth().signOut();
+              alert("Suas credênciais foram revogadas, entre em contato com ADM");
+              this.props.navigation.navigate('Login');
             }
           });
 
